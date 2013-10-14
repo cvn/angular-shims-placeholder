@@ -8,4 +8,4 @@ before_script:
   - npm install -g grunt-cli grunt-ngmin
 
 script:
-  - grunt travis-ci
+  - karma start test/karma.conf.js

@@ -1,18 +1,19 @@
 'use strict';
 
 module.exports = function(grunt) {
-
-	// Project configuration.
+ 	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-		'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-		'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-		'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-		' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
-		// Task configuration.
+			'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
+		// Tasks configuration.
 		ngmin: {
+			files: ['lib/*.js'],
 			dist: {
 				src: ['lib/<%= pkg.name %>.js'],
 				dest: 'dist/<%= pkg.name %>.js'
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['Gruntfile.js', 'lib/*.js'],
+			files: ['lib/*.js'],
 			options: {
 				curly: false,
 				browser: true,
@@ -78,8 +79,8 @@ module.exports = function(grunt) {
 				}
 			},
 			options: {
-				reporters: ['dots'],
-				configFile: 'test/karma.conf.js'
+				// does not work with grunt. Instead run karma directly
+				configFile: 'karma.conf.js'
 			}
 		}
 	});
@@ -89,17 +90,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-ngmin');
+	grunt.loadNpmTasks('grunt-karma');
 
 	// Default task.
 	grunt.registerTask('default', ['test']);
 
 	// Test tasks.
-	grunt.registerTask('test', ['jshint', 'karma:test']);
+	grunt.registerTask('test', ['karma:test']);
 	grunt.registerTask('testall', ['karma:testall']);
 	grunt.registerTask('travis-ci', ['jshint', 'karma:travis-ci']);
 
 	// Build task.
-	grunt.registerTask('build', ['test', 'ngmin', 'concat', 'uglify']);
+	grunt.registerTask('build', ['ngmin', 'concat', 'uglify']);
 
 	// Provides the "karma" task.
 	grunt.registerMultiTask('karma', 'Starts up a karma server.', function() {
