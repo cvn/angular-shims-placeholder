@@ -8,6 +8,11 @@ In comparison to https://github.com/urish/angular-placeholder-shim, this Angular
 implementend purely on Angulars API and does not depend on other libraries, such as jQuery and
 [jquery-html5-placeholder-shim](https://github.com/parndt/jquery-html5-placeholder-shim).
 
+Build status
+------------
+
+[![Build Status](https://travis-ci.org/jrief/angular-shims-placeholder.png?branch=master)](https://travis-ci.org/jrief/angular-shims-placeholder)
+
 Usage
 -----
 Include 
