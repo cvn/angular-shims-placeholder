@@ -28,13 +28,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "karma": ">= 0.8.5",
-    "grunt": "~0.4.1",
+    "karma": "0.8.5",
+    "grunt": ">= 0.4.0",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-ngmin": "0.0.2",
-    "grunt-karma": "~0.4.3"
+    "grunt-ngmin": "0.0.2"
   },
   "keywords": []
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(grunt) {
- 	// Project configuration.
+	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
@@ -10,18 +10,17 @@ module.exports = function(grunt) {
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
-
-		// Tasks configuration.
+		// Task configuration.
 		ngmin: {
-			files: ['lib/*.js'],
 			dist: {
-				src: ['lib/<%= pkg.name %>.js'],
+				src: ['lib/*.js'],
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
 		concat: {
 			options: {
-				banner: '<%= banner %>'
+				banner: '<%= banner %>',
+				stripBanners: true
 			},
 			dist: {
 				src: '<%= ngmin.dist.dest %>',
@@ -38,7 +37,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['lib/*.js'],
+			files: ['Gruntfile.js', 'lib/*.js'],
 			options: {
 				curly: false,
 				browser: true,
@@ -63,12 +62,7 @@ module.exports = function(grunt) {
 		karma: {
 			test: {
 				options: {
-					browsers: ['ChromeCanary']
-				}
-			},
-			testall: {
-				options: {
-					browsers: ['Safari', 'Chrome', 'ChromeCanary', 'Firefox', 'Opera'],
+					browsers: ['ChromeCanary'],
 					singleRun: true
 				}
 			},
@@ -79,8 +73,8 @@ module.exports = function(grunt) {
 				}
 			},
 			options: {
-				// does not work with grunt. Instead run karma directly
-				configFile: 'karma.conf.js'
+				reporters: ['dots'],
+				configFile: 'test/karma.conf.js'
 			}
 		}
 	});
@@ -90,14 +84,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-ngmin');
-	grunt.loadNpmTasks('grunt-karma');
 
 	// Default task.
 	grunt.registerTask('default', ['test']);
 
 	// Test tasks.
-	grunt.registerTask('test', ['karma:test']);
-	grunt.registerTask('testall', ['karma:testall']);
+	grunt.registerTask('test', ['jshint', 'karma:test']);
 	grunt.registerTask('travis-ci', ['jshint', 'karma:travis-ci']);
 
 	// Build task.
