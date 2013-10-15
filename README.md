@@ -38,6 +38,12 @@ Example:
 <input type="text" name="email" placeholder="Enter your email" />
 ```
 
+Note
+----
+Remember to adapt your styles for forms using this placeholder directive. To an empty input field,
+the class `empty` is added. So, when defining your styles, use a light grey, or similar, as text-color,
+to distinguish optically between labels and real input.
+
 License
 -------
 Released under the terms of MIT License.
