@@ -90,23 +90,30 @@ describe('test module angular-placeholder', function() {
 	});
 
 	describe('for input field of type password using directive placeholder', function() {
-		var pwd_field, scope;
+		var pwd_field, pwd_clone, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
 			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" ng-model="form.passwd" value="" />');
 			$compile(pwd_field)(scope);
+			pwd_clone = angular.element(pwd_field[0].previousElementSibling);
 		}));
 
-		it('should display the placeholder as input value for a text field', function() {
-			expect(pwd_field.val()).toBe('Password');
-			expect(pwd_field.attr('type')).toBe('text');
+		it('should hide the password input, add class "empty", and show a separate placeholder text input', function() {
+			expect(pwd_field.val()).toBe('');
+			expect(pwd_field.attr('type')).toBe('password');
+			expect(pwd_field.hasClass('ng-hide')).toBe(true);
 			expect(pwd_field.hasClass('empty')).toBe(true);
+			expect(pwd_clone.val()).toBe('Password');
+			expect(pwd_clone.attr('type')).toBe('text');
+			expect(pwd_clone.hasClass('ng-hide')).toBe(false);
+			expect(pwd_clone.hasClass('empty')).toBe(true);
 			expect(scope.form.passwd).toBe('');
 		});
 
-		describe('when password field gains focus', function() {
+		describe('when password placeholder gains focus', function() {
 			beforeEach(function() {
+				pwd_clone.triggerHandler('focus');
 				pwd_field.triggerHandler('focus');
 			});
 
@@ -114,11 +121,14 @@ describe('test module angular-placeholder', function() {
 				pwd_field.triggerHandler('blur');
 			});
 
-			it('should hide the placeholder, remove class "empty" and obfuscate text input', function() {
+			it('should show the password input, remove class "empty", and hide the placeholder', function() {
 				expect(pwd_field.val()).toBe('');
+				expect(pwd_field.hasClass('ng-hide')).toBe(false);
 				expect(pwd_field.hasClass('empty')).toBe(false);
+				expect(pwd_clone.val()).toBe('Password');
+				expect(pwd_clone.hasClass('ng-hide')).toBe(true);
+				expect(pwd_clone.hasClass('empty')).toBe(true);
 				expect(scope.form.passwd).toBe('');
-				expect(pwd_field.attr('type')).toBe('password');
 			});
 		});
 	});
