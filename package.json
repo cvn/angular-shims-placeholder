@@ -24,10 +24,12 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
+    "postinstall" : "node_modules/.bin/bower install",
     "test": "karma start test/karma.conf.js --single-run --browsers PhantomJS"
   },
   "dependencies": {},
   "devDependencies": {
+    "bower": "latest",
     "karma": "0.8.5",
     "grunt": ">= 0.4.0",
     "grunt-contrib-concat": "latest",
