@@ -37,5 +37,9 @@
     "grunt-contrib-uglify": "latest",
     "grunt-ngmin": "0.0.2"
   },
-  "keywords": []
+  "keywords": [
+    "angularjs",
+    "placeholders",
+    "polyfill"
+  ]
 }
