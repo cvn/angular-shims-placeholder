@@ -132,4 +132,70 @@ describe('test module angular-placeholder', function() {
 			});
 		});
 	});
+
+	describe('for textarea using directive placeholder', function() {
+		var textarea, scope;
+
+		beforeEach(inject(function($rootScope, $compile) {
+			scope = $rootScope.$new();
+			textarea = angular.element('<textarea name="userprofile" placeholder="Profile" ng-model="form.profile" />');
+			angular.element(document).find('body').append(textarea);
+			$compile(textarea)(scope);
+		}));
+
+		it('should display the placeholder as input value and add class "empty",', function() {
+			expect(textarea.val()).toBe('Profile');
+			expect(textarea.hasClass('empty')).toBe(true);
+			expect(scope.form.profile).toBe('');
+		});
+
+		describe('when textarea gains focus', function() {
+			beforeEach(function() {
+				textarea.triggerHandler('focus');
+			});
+
+			afterEach(function() {
+				textarea.triggerHandler('blur');
+			});
+
+			it('should hide the placeholder and remove class "empty"', function() {
+				expect(textarea.val()).toBe('');
+				expect(textarea.hasClass('empty')).toBe(false);
+				expect(scope.form.profile).toBe('');
+			});
+		});
+	});
+
+	describe('for html5 search input using directive placeholder', function() {
+		var search, scope;
+
+		beforeEach(inject(function($rootScope, $compile) {
+			scope = $rootScope.$new();
+			search = angular.element('<input type="search" name="query" placeholder="Search for terms..." ng-model="form.query" />');
+			angular.element(document).find('body').append(search);
+			$compile(search)(scope);
+		}));
+
+		it('should display the placeholder as input value and add class "empty",', function() {
+			expect(search.val()).toBe('Search for terms...');
+			expect(search.hasClass('empty')).toBe(true);
+			expect(scope.form.query).toBe('');
+		});
+
+		describe('when input gains focus', function() {
+			beforeEach(function() {
+				search.triggerHandler('focus');
+			});
+
+			afterEach(function() {
+				search.triggerHandler('blur');
+			});
+
+			it('should hide the placeholder and remove class "empty"', function() {
+				expect(search.val()).toBe('');
+				expect(search.hasClass('empty')).toBe(false);
+				expect(scope.form.query).toBe('');
+			});
+		});
+	});
 });

@@ -2,7 +2,7 @@ angular-shims-placeholder
 =========================
 
 Angular directive to emulate attribute `placeholder` in input fields of type text and of type password
-for all browsers, including IE8 and lower.
+for all browsers, including IE8 and lower. Also works on textareas and html5 input types.
 
 This directive works in both directions, which means that changing the value from inside the model 
 is honoured in the form.  
