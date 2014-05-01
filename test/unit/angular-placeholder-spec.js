@@ -139,7 +139,6 @@ describe('test module angular-placeholder', function() {
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
 			textarea = angular.element('<textarea name="userprofile" placeholder="Profile" ng-model="form.profile" />');
-			angular.element(document).find('body').append(textarea);
 			$compile(textarea)(scope);
 		}));
 
@@ -172,7 +171,6 @@ describe('test module angular-placeholder', function() {
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
 			search = angular.element('<input type="search" name="query" placeholder="Search for terms..." ng-model="form.query" />');
-			angular.element(document).find('body').append(search);
 			$compile(search)(scope);
 		}));
 
