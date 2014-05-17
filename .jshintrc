@@ -1,13 +1,20 @@
 {
-  "curly": true,
+  "curly": false,
+  "browser": true,
   "eqeqeq": true,
   "immed": true,
-  "latedef": true,
+  "latedef": "nofunc",
   "newcap": true,
   "noarg": true,
   "sub": true,
   "undef": true,
   "boss": true,
   "eqnull": true,
-  "predef": ["exports"]
+  "expr": true,
+  "node": true,
+  "globals": {
+    "exports": true,
+    "angular": false,
+    "$": false
+  }
 }
