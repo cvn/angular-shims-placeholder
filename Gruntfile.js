@@ -39,24 +39,7 @@ module.exports = function(grunt) {
 		jshint: {
 			files: ['Gruntfile.js', 'lib/*.js'],
 			options: {
-				curly: false,
-				browser: true,
-				eqeqeq: true,
-				immed: true,
-				latedef: true,
-				newcap: true,
-				noarg: true,
-				sub: true,
-				undef: true,
-				boss: true,
-				eqnull: true,
-				expr: true,
-				node: true,
-				globals: {
-					exports: true,
-					angular: false,
-					$: false
-				}
+				jshintrc: '.jshintrc'
 			}
 		},
 		karma: {
