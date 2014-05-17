@@ -1,0 +1,26 @@
+# http://editorconfig.org
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[dist/*.js]
+indent_style = spaces
+indent_size = 2
+
+[*.json]
+indent_style = spaces
+indent_size = 2
+
+[*.yml]
+indent_style = spaces
+indent_size = 2
+
+[*.jshintrc]
+indent_style = spaces
+indent_size = 2
