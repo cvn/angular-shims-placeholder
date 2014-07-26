@@ -24,18 +24,19 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
-    "postinstall" : "node_modules/.bin/bower install",
+    "postinstall": "node_modules/.bin/bower install",
     "test": "karma start test/karma.conf.js --single-run --browsers PhantomJS"
   },
   "dependencies": {},
   "devDependencies": {
     "bower": "latest",
-    "karma": "0.8.5",
     "grunt": ">= 0.4.0",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-ngmin": "0.0.2"
+    "grunt-contrib-watch": "latest",
+    "grunt-ngmin": "0.0.2",
+    "karma": "0.8.5"
   },
   "keywords": [
     "angularjs",
