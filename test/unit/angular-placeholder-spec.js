@@ -196,4 +196,64 @@ describe('test module angular-placeholder', function() {
 			});
 		});
 	});
+
+	describe('for an empty input without ngModel using directive placeholder', function() {
+		var elem, scope;
+
+		beforeEach(inject(function($rootScope, $compile) {
+			scope = $rootScope.$new();
+			elem = angular.element('<input type="text" name="query" placeholder="no model" />');
+			$compile(elem)(scope);
+		}));
+
+		it('should display the placeholder as input value and add class "empty",', function() {
+			expect(elem.val()).toBe('no model');
+			expect(elem.hasClass('empty')).toBe(true);
+		});
+
+		describe('when input gains focus', function() {
+			beforeEach(function() {
+				elem.triggerHandler('focus');
+			});
+
+			afterEach(function() {
+				elem.triggerHandler('blur');
+			});
+
+			it('should hide the placeholder and remove class "empty"', function() {
+				expect(elem.val()).toBe('');
+				expect(elem.hasClass('empty')).toBe(false);
+			});
+		});
+	});
+
+	describe('for a pre-filled input without ngModel using directive placeholder', function() {
+		var elem, scope;
+
+		beforeEach(inject(function($rootScope, $compile) {
+			scope = $rootScope.$new();
+			elem = angular.element('<input type="text" name="query" placeholder="no model" value="existing" />');
+			$compile(elem)(scope);
+		}));
+
+		it('should display the placeholder as input value and not have class "empty",', function() {
+			expect(elem.val()).toBe('existing');
+			expect(elem.hasClass('empty')).toBe(false);
+		});
+
+		describe('when input gains focus', function() {
+			beforeEach(function() {
+				elem.triggerHandler('focus');
+			});
+
+			afterEach(function() {
+				elem.triggerHandler('blur');
+			});
+
+			it('should keep its value and not add class "empty"', function() {
+				expect(elem.val()).toBe('existing');
+				expect(elem.hasClass('empty')).toBe(false);
+			});
+		});
+	});
 });
