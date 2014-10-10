@@ -10,6 +10,7 @@ module.exports = function(grunt) {
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+		demo: 'demo.html',
 		// Task configuration.
 		ngmin: {
 			dist: {
@@ -64,16 +65,40 @@ module.exports = function(grunt) {
 			build: {
 				files: '<%= ngmin.dist.src %>',
 				tasks: ['build']
+			},
+			livereload: {
+				options: {
+					livereload: true
+				},
+				files: [
+					'<%= ngmin.dist.src %>',
+					'<%= demo %>'
+				]
+			}
+		},
+		connect: {
+			server: {
+				options: {
+					port: 9000,
+					livereload: true
+				}
+			}
+		},
+		open: {
+			dev: {
+				path: 'http://localhost:<%= connect.server.options.port %>/<%= demo %>'
 			}
 		}
 	});
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-ngmin');
+	grunt.loadNpmTasks('grunt-open');
 
 	// Default task.
 	grunt.registerTask('default', ['test']);
@@ -84,6 +109,9 @@ module.exports = function(grunt) {
 
 	// Build task.
 	grunt.registerTask('build', ['ngmin', 'concat', 'uglify']);
+
+	// Dev task.
+	grunt.registerTask('dev', ['connect', 'open', 'watch']);
 
 	// Provides the "karma" task.
 	grunt.registerMultiTask('karma', 'Starts up a karma server.', function() {
