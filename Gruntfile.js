@@ -12,6 +12,16 @@ module.exports = function(grunt) {
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 		demo: 'demo.html',
 		// Task configuration.
+		bump: {
+			options: {
+				files: ['package.json', 'bower.json'],
+				updateConfigs: ['pkg'],
+				commitFiles: ['-a'],
+				commitMessage: 'Release %VERSION%',
+				tagName: 'v%VERSION%',
+				push: false
+			}
+		},
 		ngmin: {
 			dist: {
 				src: ['lib/*.js'],
@@ -92,6 +102,7 @@ module.exports = function(grunt) {
 	});
 
 	// These plugins provide necessary tasks.
+	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
