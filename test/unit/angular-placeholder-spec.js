@@ -2,19 +2,30 @@
 
 
 describe('placeholder', function() {
+	var scope, $compile;
+
+	function changeValue(elem, value) {
+		elem.val(value);
+		elem.triggerHandler('change'); // trigger the input directive's change handler
+	}
+
 	beforeEach(function() {
 		module('ng.shims.placeholder');
 	});
 
-	describe('on an empty text input', function() {
-		var email_field, scope;
+	beforeEach(inject(function($injector) {
+		$compile = $injector.get('$compile');
+		scope = $injector.get('$rootScope');
+		scope.form = {};
+	}));
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
-			scope.form = {};
+	describe('on an empty text input', function() {
+		var email_field;
+
+		beforeEach(function() {
 			email_field = angular.element('<input type="text" name="useremail" placeholder="E-Mail" ng-model="form.email" value="" />');
 			$compile(email_field)(scope);
-		}));
+		});
 
 		it('should display the placeholder as input value', function() {
 			expect(email_field.val()).toBe('E-Mail');
@@ -46,8 +57,7 @@ describe('placeholder', function() {
 
 			describe('when text is entered', function() {
 				beforeEach(function() {
-					email_field.val('me@example.com');
-					email_field.triggerHandler('change'); // trigger handler from input directive
+					changeValue(email_field, 'me@example.com');
 					email_field.triggerHandler('blur');
 				});
 
@@ -59,8 +69,7 @@ describe('placeholder', function() {
 
 				it('should reset the field as "empty"', function() {
 					email_field.triggerHandler('focus');
-					email_field.val('');
-					email_field.triggerHandler('change'); // trigger handler from input directive
+					changeValue(email_field, '');
 					email_field.triggerHandler('blur');
 					expect(email_field.val()).toBe('E-Mail');
 					expect(email_field.hasClass('empty')).toBe(true);
@@ -93,15 +102,13 @@ describe('placeholder', function() {
 	});
 
 	describe('on an empty password input', function() {
-		var pwd_field, pwd_clone, scope;
+		var pwd_field, pwd_clone;
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
-			scope.form = {};
+		beforeEach(function() {
 			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" ng-model="form.passwd" value="" />');
 			$compile(pwd_field)(scope);
 			pwd_clone = angular.element(pwd_field[0].previousElementSibling);
-		}));
+		});
 
 		it('should hide the password input, add class "empty", and show a separate placeholder text input', function() {
 			expect(pwd_field.val()).toBe('');
@@ -138,14 +145,12 @@ describe('placeholder', function() {
 	});
 
 	describe('on an empty textarea', function() {
-		var textarea, scope;
+		var textarea;
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
-			scope.form = {};
+		beforeEach(function() {
 			textarea = angular.element('<textarea name="userprofile" placeholder="Profile" ng-model="form.profile" />');
 			$compile(textarea)(scope);
-		}));
+		});
 
 		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(textarea.val()).toBe('Profile');
@@ -171,14 +176,12 @@ describe('placeholder', function() {
 	});
 
 	describe('on an empty html5 search input', function() {
-		var search, scope;
+		var search;
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
-			scope.form = {};
+		beforeEach(function() {
 			search = angular.element('<input type="search" name="query" placeholder="Search for terms..." ng-model="form.query" />');
 			$compile(search)(scope);
-		}));
+		});
 
 		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(search.val()).toBe('Search for terms...');
@@ -204,13 +207,12 @@ describe('placeholder', function() {
 	});
 
 	describe('on an empty input without ngModel', function() {
-		var elem, scope;
+		var elem;
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
+		beforeEach(function() {
 			elem = angular.element('<input type="text" name="query" placeholder="no model" />');
 			$compile(elem)(scope);
-		}));
+		});
 
 		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(elem.val()).toBe('no model');
@@ -234,13 +236,12 @@ describe('placeholder', function() {
 	});
 
 	describe('on a pre-filled input without ngModel', function() {
-		var elem, scope;
+		var elem;
 
-		beforeEach(inject(function($rootScope, $compile) {
-			scope = $rootScope.$new();
+		beforeEach(function() {
 			elem = angular.element('<input type="text" name="query" placeholder="no model" value="existing" />');
 			$compile(elem)(scope);
-		}));
+		});
 
 		it('should display the value from the html element and not have class "empty"', function() {
 			expect(elem.val()).toBe('existing');
