@@ -1,12 +1,12 @@
 'use strict';
 
 
-describe('test module angular-placeholder', function() {
+describe('placeholder', function() {
 	beforeEach(function() {
 		module('ng.shims.placeholder');
 	});
 
-	describe('for an empty input field of type text using directive placeholder', function() {
+	describe('on an empty text input', function() {
 		var email_field, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -22,7 +22,7 @@ describe('test module angular-placeholder', function() {
 			expect(scope.form.email).toBeUndefined();
 		});
 
-		describe('when input field gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				email_field.triggerHandler('focus');
 			});
@@ -44,7 +44,7 @@ describe('test module angular-placeholder', function() {
 				expect(scope.form.email).toBeUndefined();
 			});
 
-			describe('when text is entered into the input field', function() {
+			describe('when text is entered', function() {
 				beforeEach(function() {
 					email_field.val('me@example.com');
 					email_field.triggerHandler('change'); // trigger handler from input directive
@@ -92,7 +92,7 @@ describe('test module angular-placeholder', function() {
 
 	});
 
-	describe('for input field of type password using directive placeholder', function() {
+	describe('on an empty password input', function() {
 		var pwd_field, pwd_clone, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -115,7 +115,7 @@ describe('test module angular-placeholder', function() {
 			expect(scope.form.passwd).toBeUndefined();
 		});
 
-		describe('when password placeholder gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				pwd_clone.triggerHandler('focus');
 				pwd_field.triggerHandler('focus');
@@ -137,7 +137,7 @@ describe('test module angular-placeholder', function() {
 		});
 	});
 
-	describe('for textarea using directive placeholder', function() {
+	describe('on an empty textarea', function() {
 		var textarea, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -147,13 +147,13 @@ describe('test module angular-placeholder', function() {
 			$compile(textarea)(scope);
 		}));
 
-		it('should display the placeholder as input value and add class "empty",', function() {
+		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(textarea.val()).toBe('Profile');
 			expect(textarea.hasClass('empty')).toBe(true);
 			expect(scope.form.profile).toBeUndefined();
 		});
 
-		describe('when textarea gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				textarea.triggerHandler('focus');
 			});
@@ -170,7 +170,7 @@ describe('test module angular-placeholder', function() {
 		});
 	});
 
-	describe('for html5 search input using directive placeholder', function() {
+	describe('on an empty html5 search input', function() {
 		var search, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -180,13 +180,13 @@ describe('test module angular-placeholder', function() {
 			$compile(search)(scope);
 		}));
 
-		it('should display the placeholder as input value and add class "empty",', function() {
+		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(search.val()).toBe('Search for terms...');
 			expect(search.hasClass('empty')).toBe(true);
 			expect(scope.form.query).toBeUndefined();
 		});
 
-		describe('when input gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				search.triggerHandler('focus');
 			});
@@ -203,7 +203,7 @@ describe('test module angular-placeholder', function() {
 		});
 	});
 
-	describe('for an empty input without ngModel using directive placeholder', function() {
+	describe('on an empty input without ngModel', function() {
 		var elem, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -212,12 +212,12 @@ describe('test module angular-placeholder', function() {
 			$compile(elem)(scope);
 		}));
 
-		it('should display the placeholder as input value and add class "empty",', function() {
+		it('should display the placeholder as input value and add class "empty"', function() {
 			expect(elem.val()).toBe('no model');
 			expect(elem.hasClass('empty')).toBe(true);
 		});
 
-		describe('when input gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				elem.triggerHandler('focus');
 			});
@@ -233,7 +233,7 @@ describe('test module angular-placeholder', function() {
 		});
 	});
 
-	describe('for a pre-filled input without ngModel using directive placeholder', function() {
+	describe('on a pre-filled input without ngModel', function() {
 		var elem, scope;
 
 		beforeEach(inject(function($rootScope, $compile) {
@@ -242,12 +242,12 @@ describe('test module angular-placeholder', function() {
 			$compile(elem)(scope);
 		}));
 
-		it('should display the placeholder as input value and not have class "empty",', function() {
+		it('should display the value from the html element and not have class "empty"', function() {
 			expect(elem.val()).toBe('existing');
 			expect(elem.hasClass('empty')).toBe(false);
 		});
 
-		describe('when input gains focus', function() {
+		describe('with focus', function() {
 			beforeEach(function() {
 				elem.triggerHandler('focus');
 			});
