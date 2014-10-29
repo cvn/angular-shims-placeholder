@@ -3,81 +3,88 @@
 <head>
 	<meta charset="UTF-8">
 	<title>demo</title>
-	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
 	<style type="text/css">
 		/* These styles are for demo purposes only */
 		body { margin: 4em 2em; }
-		textarea { vertical-align: top; }
-		.empty { color: green; }
-		input[type=email]:invalid { box-shadow: none; } /* suppress Firefox default style */
-		input[type=email]:not(.empty):valid { border: 2px solid green; }
-		input[type=email]:not(.empty):invalid { border: 2px solid red; }
+		p { max-width: 600px; }
+		input, textarea { width: 140px; vertical-align: top; margin: 2px 0; }
+		.empty { color: limegreen; }
+		.ng-dirty { background-color: lightcyan; }
+		.ng-invalid { border-color: red; }
+		input:invalid { box-shadow: none; } /* suppress Firefox default style */
 	</style>
 </head>
 <body ng-app="testApp">
 	<h1>angular-shims-placeholder</h1>
-	<p>Shimmed placeholders are <span class="empty">green</span> for demonstration purposes. Set the color with the .empty class. The shim is force enabled here, usually it is only active in older browsers that don't support the placeholder attribute.</p>
-	<div>
-		<div>Initially empty</div>
-		<input type="text" ng-model="test.empty" placeholder="placeheld text">
-		<input type="password" ng-model="test.empty2" placeholder="placeheld pass">
-		<input type="email" ng-model="test.empty3" placeholder="placeheld email">
-	</div>
-	<div>
-		<div>Pre-filled by model</div>
-		<input type="text" ng-model="test.text" placeholder="placeheld text">
-		<input type="password" ng-model="test.password" placeholder="placeheld pass">
-	</div>
-	<div>
-		<div>linked</div>
-		<input type="text" ng-model="test.linked" ng-trim="false" placeholder="placeheld text">
-		<input type="password" ng-model="test.linked" ng-trim="false" placeholder="placeheld pass">
-		<textarea rows="1" ng-model="test.linked" ng-trim="false" placeholder="placeheld textarea"></textarea>
-	</div>
-	<br>
+	<p>Shimmed placeholders are <span class="empty">green</span> for demonstration purposes. Set the color with the .empty class. $dirty fields will display <span class="ng-dirty">light blue</span>. The shim is force enabled here, usually it is only active in older browsers that don't support the placeholder attribute.</p>
+	<a href="https://github.com/jrief/angular-shims-placeholder"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 	<div>
 		<div>No model</div>
-		<input type="text" placeholder="placeheld text">
-		<input type="password" placeholder="placeheld pass">
-		<input type="email" placeholder="placeheld email">
+		<input type="text" placeholder="text">
+		<input type="password" placeholder="password">
+		<input type="email" placeholder="email">
+		<textarea rows="1" placeholder="textarea"></textarea>
+	</div>
+	<div>
+		<div>Separate models</div>
+		<input type="text" placeholder="text" ng-model="test.empty1">
+		<input type="password" placeholder="password" ng-model="test.empty2">
+		<input type="email" placeholder="email" ng-model="test.empty3">
+		<textarea rows="1" placeholder="textarea" ng-model="test.empty4"></textarea>
+	</div>
+	<div>
+		<div>Shared model</div>
+		<input type="text" placeholder="text" ng-model="test.linked" ng-trim="false">
+		<input type="password" placeholder="password" ng-model="test.linked" ng-trim="false">
+		<input type="email" placeholder="email" ng-model="test.linked" ng-trim="false">
+		<textarea rows="1" placeholder="textarea" ng-model="test.linked" ng-trim="false"></textarea>
+	</div>
+	<div>
+		<div>Separate models, no placeholder (for reference)</div>
+		<input type="text" ng-model="test.empty11">
+		<input type="password" ng-model="test.empty12">
+		<input type="email" ng-model="test.empty13">
+		<textarea rows="1" ng-model="test.empty14"></textarea>
 	</div>
 	<div>
 		<div>No model, pre-filled by value</div>
-		<input class="clearable" type="text" placeholder="placeheld text" value="hello">
-		<input class="clearable" type="password" placeholder="placeheld pass" value="secret">
+		<input class="clearable" type="text" placeholder="text" value="hi">
+		<input class="clearable" type="password" placeholder="password" value="pass">
 		<button onclick="fillElements()">fill</button>
 		<button onclick="clearElements()">clear</button>
 	</div>
+	<div>
+		<div>Pre-filled by model</div>
+		<input type="text" ng-model="test.text" placeholder="text">
+		<input type="password" ng-model="test.password" placeholder="password">
+	</div>
 
-	<script src="bower_components/angular/angular.js"></script>
+	<!-- <script src="bower_components/angular/angular.js"></script> -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
 	<script src="lib/angular-placeholder.js"></script>
 	<script>
 		angular.module(['testApp'], ['ng.shims.placeholder'])
 		.run(function($rootScope){
 			$rootScope.test = {
-				empty: '',
-				text: 'hello from model',
-				password: 'secret from model',
+				text: 'hello',
+				password: 'secret',
 				linked: ''
 			};
 		});
 
 		var fillElements = function () {
-			var elements = document.getElementsByTagName('input');
+			var elements = document.querySelectorAll('.clearable');
 			for (var i = 0; i < elements.length; i++) {
 				var elem = angular.element(elements[i]);
-				if (elem.hasClass('clearable')) { 
-					elem.val('filler').triggerHandler('change');
-				}
+				elem.val('filler').triggerHandler('change');
 			}
 		}
 		var clearElements = function () {
-			var elements = document.getElementsByTagName('input');
+			var elements = document.querySelectorAll('.clearable');
 			for (var i = 0; i < elements.length; i++) {
 				var elem = angular.element(elements[i]);
-				if (elem.hasClass('clearable')) {
-					elem.val('').triggerHandler('change');
-				}
+				elem.val('').triggerHandler('change');
 			}
 		}
 
