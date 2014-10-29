@@ -11,6 +11,7 @@ describe('test module angular-placeholder', function() {
 
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
+			scope.form = {};
 			email_field = angular.element('<input type="text" name="useremail" placeholder="E-Mail" ng-model="form.email" value="" />');
 			$compile(email_field)(scope);
 		}));
@@ -18,7 +19,7 @@ describe('test module angular-placeholder', function() {
 		it('should display the placeholder as input value', function() {
 			expect(email_field.val()).toBe('E-Mail');
 			expect(email_field.hasClass('empty')).toBe(true);
-			expect(scope.form.email).toBe('');
+			expect(scope.form.email).toBeUndefined();
 		});
 
 		describe('when input field gains focus', function() {
@@ -33,19 +34,20 @@ describe('test module angular-placeholder', function() {
 			it('should hide the placeholder and remove class "empty"', function() {
 				expect(email_field.val()).toBe('');
 				expect(email_field.hasClass('empty')).toBe(false);
-				expect(scope.form.email).toBe('');
+				expect(scope.form.email).toBeUndefined();
 			});
 
 			it('should restore the placeholder and class "empty" when leaving field unchanged', function() {
 				email_field.triggerHandler('blur');
 				expect(email_field.val()).toBe('E-Mail');
 				expect(email_field.hasClass('empty')).toBe(true);
-				expect(scope.form.email).toBe('');
+				expect(scope.form.email).toBeUndefined();
 			});
 
 			describe('when text is entered into the input field', function() {
 				beforeEach(function() {
 					email_field.val('me@example.com');
+					email_field.triggerHandler('change'); // trigger handler from input directive
 					email_field.triggerHandler('blur');
 				});
 
@@ -58,6 +60,7 @@ describe('test module angular-placeholder', function() {
 				it('should reset the field as "empty"', function() {
 					email_field.triggerHandler('focus');
 					email_field.val('');
+					email_field.triggerHandler('change'); // trigger handler from input directive
 					email_field.triggerHandler('blur');
 					expect(email_field.val()).toBe('E-Mail');
 					expect(email_field.hasClass('empty')).toBe(true);
@@ -94,6 +97,7 @@ describe('test module angular-placeholder', function() {
 
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
+			scope.form = {};
 			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" ng-model="form.passwd" value="" />');
 			$compile(pwd_field)(scope);
 			pwd_clone = angular.element(pwd_field[0].previousElementSibling);
@@ -108,7 +112,7 @@ describe('test module angular-placeholder', function() {
 			expect(pwd_clone.attr('type')).toBe('text');
 			expect(pwd_clone.hasClass('ng-hide')).toBe(false);
 			expect(pwd_clone.hasClass('empty')).toBe(true);
-			expect(scope.form.passwd).toBe('');
+			expect(scope.form.passwd).toBeUndefined();
 		});
 
 		describe('when password placeholder gains focus', function() {
@@ -128,7 +132,7 @@ describe('test module angular-placeholder', function() {
 				expect(pwd_clone.val()).toBe('Password');
 				expect(pwd_clone.hasClass('ng-hide')).toBe(true);
 				expect(pwd_clone.hasClass('empty')).toBe(true);
-				expect(scope.form.passwd).toBe('');
+				expect(scope.form.passwd).toBeUndefined();
 			});
 		});
 	});
@@ -138,6 +142,7 @@ describe('test module angular-placeholder', function() {
 
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
+			scope.form = {};
 			textarea = angular.element('<textarea name="userprofile" placeholder="Profile" ng-model="form.profile" />');
 			$compile(textarea)(scope);
 		}));
@@ -145,7 +150,7 @@ describe('test module angular-placeholder', function() {
 		it('should display the placeholder as input value and add class "empty",', function() {
 			expect(textarea.val()).toBe('Profile');
 			expect(textarea.hasClass('empty')).toBe(true);
-			expect(scope.form.profile).toBe('');
+			expect(scope.form.profile).toBeUndefined();
 		});
 
 		describe('when textarea gains focus', function() {
@@ -160,7 +165,7 @@ describe('test module angular-placeholder', function() {
 			it('should hide the placeholder and remove class "empty"', function() {
 				expect(textarea.val()).toBe('');
 				expect(textarea.hasClass('empty')).toBe(false);
-				expect(scope.form.profile).toBe('');
+				expect(scope.form.profile).toBeUndefined();
 			});
 		});
 	});
@@ -170,6 +175,7 @@ describe('test module angular-placeholder', function() {
 
 		beforeEach(inject(function($rootScope, $compile) {
 			scope = $rootScope.$new();
+			scope.form = {};
 			search = angular.element('<input type="search" name="query" placeholder="Search for terms..." ng-model="form.query" />');
 			$compile(search)(scope);
 		}));
@@ -177,7 +183,7 @@ describe('test module angular-placeholder', function() {
 		it('should display the placeholder as input value and add class "empty",', function() {
 			expect(search.val()).toBe('Search for terms...');
 			expect(search.hasClass('empty')).toBe(true);
-			expect(scope.form.query).toBe('');
+			expect(scope.form.query).toBeUndefined();
 		});
 
 		describe('when input gains focus', function() {
@@ -192,7 +198,7 @@ describe('test module angular-placeholder', function() {
 			it('should hide the placeholder and remove class "empty"', function() {
 				expect(search.val()).toBe('');
 				expect(search.hasClass('empty')).toBe(false);
-				expect(scope.form.query).toBe('');
+				expect(scope.form.query).toBeUndefined();
 			});
 		});
 	});
