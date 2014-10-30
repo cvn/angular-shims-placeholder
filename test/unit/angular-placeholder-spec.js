@@ -263,4 +263,17 @@ describe('placeholder', function() {
 			});
 		});
 	});
+
+	describe('on an empty select element', function() {
+		var elem;
+
+		beforeEach(function() {
+			elem = angular.element('<select placeholder="mistake"><option value="">Option 1</option></select>');
+			$compile(elem)(scope);
+		});
+
+		it('should not be enabled', function() {
+			expect(elem.hasClass('empty')).toBe(false);
+		});
+	});
 });
