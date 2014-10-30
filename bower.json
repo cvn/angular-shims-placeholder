@@ -1,6 +1,6 @@
 {
   "name": "angular-shims-placeholder",
-  "description": "Add Angular directive to emulate attribute ´placeholder´ in input fields of type text and password for old browsers, such as IE8 and below",
+  "description": "Add Angular directive to emulate attribute ´placeholder´ in input fields of type text and password for old browsers, such as IE9 and below",
   "version": "0.3.0",
   "homepage": "https://github.com/jrief/angular-shims-placeholder",
   "authors": [{
