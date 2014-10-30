@@ -51,8 +51,8 @@
 		<div>No model, pre-filled by value</div>
 		<input class="clearable" type="text" placeholder="text" value="hi">
 		<input class="clearable" type="password" placeholder="password" value="pass">
-		<button onclick="fillElements()">fill</button>
-		<button onclick="clearElements()">clear</button>
+		<button onclick="fillElements('filler')">fill</button>
+		<button onclick="fillElements('')">clear</button>
 	</div>
 	<div>
 		<div>Pre-filled by model</div>
@@ -73,18 +73,11 @@
 			};
 		});
 
-		var fillElements = function () {
+		var fillElements = function (str) {
 			var elements = document.querySelectorAll('.clearable');
 			for (var i = 0; i < elements.length; i++) {
 				var elem = angular.element(elements[i]);
-				elem.val('filler').triggerHandler('change');
-			}
-		}
-		var clearElements = function () {
-			var elements = document.querySelectorAll('.clearable');
-			for (var i = 0; i < elements.length; i++) {
-				var elem = angular.element(elements[i]);
-				elem.val('').triggerHandler('change');
+				elem.val(str).triggerHandler('change');
 			}
 		}
 
