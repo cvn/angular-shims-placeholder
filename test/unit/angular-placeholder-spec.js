@@ -210,7 +210,7 @@ describe('placeholder', function() {
 		var elem;
 
 		beforeEach(function() {
-			elem = angular.element('<input type="text" name="query" placeholder="no model" />');
+			elem = angular.element('<input type="text" placeholder="no model" />');
 			$compile(elem)(scope);
 		});
 
@@ -239,7 +239,7 @@ describe('placeholder', function() {
 		var elem;
 
 		beforeEach(function() {
-			elem = angular.element('<input type="text" name="query" placeholder="no model" value="existing" />');
+			elem = angular.element('<input type="text" placeholder="no model" value="existing" />');
 			$compile(elem)(scope);
 		});
 
