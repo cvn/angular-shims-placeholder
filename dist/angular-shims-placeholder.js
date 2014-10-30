@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.2.1 - 2014-10-10
+/*! angular-shims-placeholder - v0.3.0 - 2014-10-30
 * https://github.com/jrief/angular-shims-placeholder
 * Copyright (c) 2014 Jacob Rief; Licensed MIT */
 (function (angular, document, undefined) {
@@ -16,19 +16,19 @@
         require: '?ngModel',
         priority: 1,
         link: function (scope, elem, attrs, ngModel) {
-          var orig_val = getValue(), is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = 'empty', domElem = elem[0], clone;
-          if (!text) {
+          var orig_val = getValue(), domElem = elem[0], elemType = domElem.nodeName.toLowerCase(), isInput = elemType === 'input' || elemType === 'textarea', is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = 'empty', clone;
+          if (!text || !isInput) {
             return;
           }
           if (is_pwd) {
             setupPasswordPlaceholder();
           }
-          setValueWithModel(orig_val);
+          setValue(orig_val);
           elem.bind('focus', function () {
             if (elem.hasClass(emptyClassName)) {
               elem.val('');
               elem.removeClass(emptyClassName);
-              elem.removeClass('error');
+              domElem.select();
             }
           });
           elem.bind('blur', updateValue);
@@ -38,6 +38,9 @@
           if (ngModel) {
             ngModel.$render = function () {
               setValue(ngModel.$viewValue);
+              if (domElem === document.activeElement && !elem.val()) {
+                domElem.select();
+              }
             };
           }
           function updateValue(e) {
@@ -47,20 +50,14 @@
             }
             if (document.documentMode <= 11) {
               $timeout(function () {
-                setValueWithModel(val);
+                setValue(val);
               }, 0);
             } else {
-              setValueWithModel(val);
-            }
-          }
-          function setValueWithModel(val) {
-            setValue(val);
-            if (ngModel) {
-              ngModel.$setViewValue(val);
+              setValue(val);
             }
           }
           function setValue(val) {
-            if (!val) {
+            if (!val && domElem !== document.activeElement) {
               elem.addClass(emptyClassName);
               if (is_pwd) {
                 showPasswordPlaceholder();
@@ -89,17 +86,16 @@
             return val;
           }
           function setupPasswordPlaceholder() {
-            clone = angular.element('<input type="text"/>').attr(angular.extend(extractAttributes(domElem), {
-              'type': undefined,
-              'value': text,
-              'placeholder': '',
-              'id': '',
-              'name': ''
-            })).addClass(emptyClassName).addClass('ng-hide').bind('focus', hidePasswordPlaceholderAndFocus);
+            clone = angular.element('<input type="text" value="' + text + '"/>');
+            stylePasswordPlaceholder();
+            clone.addClass(emptyClassName).addClass('ng-hide').bind('focus', hidePasswordPlaceholderAndFocus);
             domElem.parentNode.insertBefore(clone[0], domElem);
           }
+          function stylePasswordPlaceholder() {
+            clone.val(text).attr('class', elem.attr('class') || '').attr('style', elem.attr('style') || '');
+          }
           function showPasswordPlaceholder() {
-            clone.val(text);
+            stylePasswordPlaceholder();
             elem.addClass('ng-hide');
             clone.removeClass('ng-hide');
           }
@@ -110,15 +106,6 @@
           function hidePasswordPlaceholderAndFocus() {
             hidePasswordPlaceholder();
             domElem.focus();
-          }
-          function extractAttributes(element) {
-            var attr = element.attributes, copy = {}, skip = /^jQuery\d+/;
-            for (var i = 0; i < attr.length; i++) {
-              if (attr[i].specified && !skip.test(attr[i].name)) {
-                copy[attr[i].name] = attr[i].value;
-              }
-            }
-            return copy;
           }
         }
       };
