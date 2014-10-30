@@ -7,8 +7,8 @@
 	<style type="text/css">
 		/* These styles are for demo purposes only */
 		body { margin: 4em 2em; }
-		p { max-width: 600px; }
 		input, textarea { width: 140px; vertical-align: top; margin: 2px 0; }
+		.container { max-width: 600px; margin: auto; }
 		.empty { color: limegreen; }
 		.ng-dirty { background-color: lightcyan; }
 		.ng-invalid { border-color: red; }
@@ -16,56 +16,58 @@
 	</style>
 </head>
 <body ng-app="testApp">
+	<div class="container">
 	<h1>angular-shims-placeholder</h1>
 	<p>Shimmed placeholders are <span class="empty">green</span> for demonstration purposes. Set the color with the .empty class. $dirty fields will display <span class="ng-dirty">light blue</span>. The shim is force enabled here, usually it is only active in older browsers that don't support the placeholder attribute.</p>
 	<a href="https://github.com/jrief/angular-shims-placeholder"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-	<div>
+	<div id="group-nomodel" class="group has-placeholder no-model">
 		<div>No model</div>
 		<input type="text" placeholder="text">
 		<input type="password" placeholder="password">
 		<input type="email" placeholder="email">
 		<textarea rows="1" placeholder="textarea"></textarea>
 	</div>
-	<div>
+	<div id="group-separate" class="group has-placeholder has-model separate-models">
 		<div>Separate models</div>
 		<input type="text" placeholder="text" ng-model="test.empty1">
 		<input type="password" placeholder="password" ng-model="test.empty2">
 		<input type="email" placeholder="email" ng-model="test.empty3">
 		<textarea rows="1" placeholder="textarea" ng-model="test.empty4"></textarea>
 	</div>
-	<div>
+	<div id="group-shared" class="group has-placeholder has-model shared-model">
 		<div>Shared model</div>
 		<input type="text" placeholder="text" ng-model="test.linked" ng-trim="false">
 		<input type="password" placeholder="password" ng-model="test.linked" ng-trim="false">
 		<input type="email" placeholder="email" ng-model="test.linked" ng-trim="false">
 		<textarea rows="1" placeholder="textarea" ng-model="test.linked" ng-trim="false"></textarea>
 	</div>
-	<div>
+	<div id="group-separate-ref" class="group no-placeholder has-model separate-models">
 		<div>Separate models, no placeholder (for reference)</div>
 		<input type="text" ng-model="test.empty11">
 		<input type="password" ng-model="test.empty12">
 		<input type="email" ng-model="test.empty13">
 		<textarea rows="1" ng-model="test.empty14"></textarea>
 	</div>
-	<div>
+	<div id="group-shared-ref" class="group no-placeholder has-model shared-model">
 		<div>Shared model, no placeholder (for reference)</div>
 		<input type="text" ng-model="test.linked2" ng-trim="false">
 		<input type="password" ng-model="test.linked2" ng-trim="false">
 		<input type="email" ng-model="test.linked2" ng-trim="false">
 		<textarea rows="1" ng-model="test.linked2" ng-trim="false"></textarea>
 	</div>
-	<div>
+	<div id="group-nomodel-prefilled" class="group has-placeholder no-model pre-filled">
 		<div>No model, pre-filled by value</div>
 		<input class="clearable" type="text" placeholder="text" value="hi">
 		<input class="clearable" type="password" placeholder="password" value="pass">
 		<button onclick="fillElements('filler')">fill</button>
 		<button onclick="fillElements('')">clear</button>
 	</div>
-	<div>
+	<div id="group-separate-prefilled" class="group has-placeholder has-model pre-filled">
 		<div>Pre-filled by model</div>
 		<input type="text" ng-model="test.text" placeholder="text">
 		<input type="password" ng-model="test.password" placeholder="password">
 	</div>
+	</div><!-- /.container -->
 
 	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
 	<script src="bower_components/angular/angular.js"></script>
