@@ -67,8 +67,11 @@
 		<input type="password" ng-model="test.password" placeholder="password">
 	</div>
 
-	<!-- <script src="bower_components/angular/angular.js"></script> -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
+	<script src="bower_components/angular/angular.js"></script>
+	<script>if (!window.angular && console) { console.info('Local angular.js unavailable. Will attempt to load from CDN.'); }</script>
+	<script>window.angular || document.write('<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js">\x3C/script>');</script>
+
 	<script src="lib/angular-placeholder.js"></script>
 	<script>
 		angular.module(['testApp'], ['ng.shims.placeholder'])
