@@ -48,6 +48,13 @@
 		<textarea rows="1" ng-model="test.empty14"></textarea>
 	</div>
 	<div>
+		<div>Shared model, no placeholder (for reference)</div>
+		<input type="text" ng-model="test.linked2" ng-trim="false">
+		<input type="password" ng-model="test.linked2" ng-trim="false">
+		<input type="email" ng-model="test.linked2" ng-trim="false">
+		<textarea rows="1" ng-model="test.linked2" ng-trim="false"></textarea>
+	</div>
+	<div>
 		<div>No model, pre-filled by value</div>
 		<input class="clearable" type="text" placeholder="text" value="hi">
 		<input class="clearable" type="password" placeholder="password" value="pass">
@@ -68,8 +75,7 @@
 		.run(function($rootScope){
 			$rootScope.test = {
 				text: 'hello',
-				password: 'secret',
-				linked: ''
+				password: 'secret'
 			};
 		});
 
