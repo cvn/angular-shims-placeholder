@@ -90,17 +90,20 @@
 
 	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
 	<script src="bower_components/angular/angular.js"></script>
-	<script>if (!window.angular && console) { console.info('Local angular.js unavailable. Will attempt to load from CDN.'); }</script>
+	<script>if (!window.angular && console) { console.log('Local angular.js unavailable. Will attempt to load from CDN.'); }</script>
 	<script>window.angular || document.write('<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js">\x3C/script>');</script>
 
 	<script src="lib/angular-placeholder.js"></script>
 	<script>
 		angular.module(['testApp'], ['ng.shims.placeholder'])
-		.run(function($rootScope){
+		.run(function($rootScope, placeholderSniffer){
 			$rootScope.test = {
 				text: 'hello',
 				password: 'secret'
 			};
+
+			// Force enable polyfill in all browsers for demo
+			placeholderSniffer.hasPlaceholder = function () { return false; };
 		});
 
 		var fillElements = function (str) {
@@ -110,10 +113,6 @@
 				elem.val(str).triggerHandler('change');
 			}
 		}
-
-		// Force run in all browsers, not just IE
-		angular.mock = 1;
-
 	</script>
 </body>
 </html>

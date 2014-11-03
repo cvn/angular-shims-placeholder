@@ -2,7 +2,7 @@
 
 
 describe('placeholder', function() {
-	var scope, $compile;
+	var scope, $compile, placeholderSniffer;
 
 	function changeValue(elem, value) {
 		elem.val(value);
@@ -13,10 +13,15 @@ describe('placeholder', function() {
 		module('ng.shims.placeholder');
 	});
 
-	beforeEach(inject(function($injector) {
+	beforeEach(inject(function($injector, _placeholderSniffer_) {
+		placeholderSniffer = _placeholderSniffer_;
 		$compile = $injector.get('$compile');
 		scope = $injector.get('$rootScope');
 		scope.form = {};
+		// Force browser to report lack of placeholder support, so we can test the polyfill behavior
+		placeholderSniffer.hasPlaceholder = function() {
+			return false;
+		}
 	}));
 
 	describe('on an empty text input', function() {
