@@ -1,16 +1,22 @@
-/*! angular-shims-placeholder - v0.3.0 - 2014-10-30
+/*! angular-shims-placeholder - v0.3.1 - 2014-11-03
 * https://github.com/jrief/angular-shims-placeholder
 * Copyright (c) 2014 Jacob Rief; Licensed MIT */
 (function (angular, document, undefined) {
   'use strict';
-  angular.module('ng.shims.placeholder', []).directive('placeholder', [
+  angular.module('ng.shims.placeholder', []).service('placeholderSniffer', [
+    '$document',
+    function ($document) {
+      this.hasPlaceholder = function () {
+        var test = $document[0].createElement('input');
+        return test.placeholder !== void 0;
+      };
+    }
+  ]).directive('placeholder', [
     '$timeout',
-    function ($timeout) {
-      if (!angular.mock) {
-        var test = document.createElement('input');
-        if (test.placeholder !== void 0)
-          return {};
-      }
+    'placeholderSniffer',
+    function ($timeout, placeholderSniffer) {
+      if (placeholderSniffer.hasPlaceholder())
+        return {};
       return {
         restrict: 'A',
         require: '?ngModel',
