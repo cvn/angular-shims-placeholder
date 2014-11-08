@@ -300,7 +300,7 @@ describe('placeholder', function() {
 		it('should become selectable when ngDisabled is set false', function() {
 			scope.$apply('form.disabler = false');
 			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBe('off');
+			expect(elem.attr('unselectable')).toBeUndefined();
 		});
 	});
 
@@ -324,7 +324,7 @@ describe('placeholder', function() {
 			it('should become selectable when ngDisabled is set false', function() {
 				scope.$apply('form.disabler = false');
 				expect(pwd_clone.val()).toBe('Password');
-				expect(pwd_clone.attr('unselectable')).toBe('off');
+				expect(pwd_clone.attr('unselectable')).toBeUndefined();
 			});
 		});
 	});
@@ -346,7 +346,7 @@ describe('placeholder', function() {
 			elem.removeAttr('disabled');
 			elem.triggerHandler('change');
 			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBe('off');
+			expect(elem.attr('unselectable')).toBeUndefined();
 		});
 	});
 
@@ -369,7 +369,7 @@ describe('placeholder', function() {
 				pwd_field.removeAttr('disabled');
 				pwd_field.triggerHandler('change');
 				expect(pwd_clone.val()).toBe('Password');
-				expect(pwd_clone.attr('unselectable')).toBe('off');
+				expect(pwd_clone.attr('unselectable')).toBeUndefined();
 			});
 		});
 	});
