@@ -11,6 +11,7 @@
 		h5 { margin: 1px 0; font-weight: normal; color: #333; }
 		input, textarea { width: 140px; vertical-align: top; margin: 2px 0px; }
 		.container { max-width: 600px; margin: auto; }
+		.group { overflow: auto; }
 		.group + .group { margin-top: 4px; }
 		.example { display: inline-block; padding: 1px; border: solid 1px transparent; }
 		.ng-dirty { background-color: lightcyan; }
@@ -19,6 +20,16 @@
 
 		/* Recommended placeholder style */
 		.empty { color: #a9a9a9; }
+
+		/* Emulate IE attribute for demo */
+		[unselectable=on] {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
 
 		/* Hide browser placeholders for demo */
 		::-webkit-input-placeholder { color: transparent; }
@@ -54,6 +65,30 @@
 		<input type="email" placeholder="email">
 		<textarea rows="1" placeholder="textarea"></textarea>
 	</div>
+	<div id="group-separate-prefilled" class="group has-placeholder has-model separate-models pre-filled">
+		<h5>Pre-filled by model</h5>
+		<input type="text" placeholder="text" ng-model="test.text">
+		<input type="password" placeholder="password" ng-model="test.password">
+		<button ng-click="test.text = (test.password = 'filler')">fill</button>
+		<button ng-click="test.text = (test.password = '')">clear</button>
+	</div>
+	<div id="group-nomodel-prefilled" class="group has-placeholder no-model pre-filled">
+		<h5>No model, pre-filled by value</h5>
+		<input type="text" placeholder="text" value="Hello, Betty">
+		<input type="password" placeholder="password" value="secret2">
+		<button onclick="fillElements('#group-nomodel-prefilled input', 'filler')">fill</button>
+		<button onclick="fillElements('#group-nomodel-prefilled input', '')">clear</button>
+	</div>
+
+	<p><h5>
+		Key:
+		<span class="example empty">empty</span>
+		<span class="example ng-dirty">ng-dirty</span>
+		<span class="example ng-invalid">ng-invalid</span>
+	</h5></p>
+
+	<br>
+
 	<div id="group-separate-ref" class="group no-placeholder has-model separate-models">
 		<h5>Separate models, no placeholder (for reference)</h5>
 		<input type="text" ng-model="test.empty11">
@@ -68,24 +103,42 @@
 		<input type="email" ng-model="test.linked2" ng-trim="false">
 		<textarea rows="1" ng-model="test.linked2" ng-trim="false"></textarea>
 	</div>
-	<div id="group-nomodel-prefilled" class="group has-placeholder no-model pre-filled">
-		<h5>No model, pre-filled by value</h5>
-		<input class="clearable" type="text" placeholder="text" value="hi">
-		<input class="clearable" type="password" placeholder="password" value="pass">
-		<button onclick="fillElements('filler')">fill</button>
-		<button onclick="fillElements('')">clear</button>
+
+	<br>
+
+	<div id="group-ngdisabled" class="group has-placeholder has-model separate-models has-ngdisabled">
+		<h5>ngDisabled</h5>
+		<input type="text" placeholder="text" ng-model="test.disabled_empty1" ng-disabled="test.disabled_emptys">
+		<input type="password" placeholder="password" ng-model="test.disabled_empty2" ng-disabled="test.disabled_emptys">
+		<input type="email" placeholder="email" ng-model="test.disabled_empty3" ng-disabled="test.disabled_emptys">
+		<textarea rows="1" placeholder="textarea" ng-model="test.disabled_empty4" ng-disabled="test.disabled_emptys"></textarea>
 	</div>
-	<div id="group-separate-prefilled" class="group has-placeholder has-model pre-filled">
-		<h5>Pre-filled by model</h5>
-		<input type="text" ng-model="test.text" placeholder="text">
-		<input type="password" ng-model="test.password" placeholder="password">
+	<div id="group-disabled-attribute" class="group has-placeholder no-model has-disabled">
+		<h5>Disabled attribute</h5>
+		<input type="text" placeholder="text" disabled="disabled">
+		<input type="password" placeholder="password" disabled="disabled">
+		<input type="email" placeholder="email" disabled="disabled">
+		<textarea rows="1" placeholder="textarea" disabled="disabled"></textarea>
 	</div>
-	<p><h5>
-		Key:
-		<span class="example empty">empty</span>
-		<span class="example ng-dirty">ng-dirty</span>
-		<span class="example ng-invalid">ng-invalid</span>
-	</h5></p>
+	<div id="group-ngdisabled-prefilled" class="group has-placeholder pre-filled has-model separate-models has-ngdisabled">
+		<h5>Pre-filled by model with ngDisabled </h5>
+		<input type="text" placeholder="text" ng-model="test.disabled_text" ng-disabled="test.disabled_prefilleds">
+		<input type="password" placeholder="password" ng-model="test.disabled_password" ng-disabled="test.disabled_prefilleds">
+		<button ng-click="test.disabled_text = (test.disabled_password = 'filler')">fill</button>
+		<button ng-click="test.disabled_text = (test.disabled_password = '')">clear</button>
+		<button ng-click="test.disabled_prefilleds = false">enable</button>
+		<button ng-click="test.disabled_prefilleds = true">disable</button>
+	</div>
+	<div id="group-disabled-attribute-prefilled" class="group has-placeholder pre-filled no-model has-disabled">
+		<h5>No model, pre-filled by value with disabled attribute</h5>
+		<input type="text" placeholder="text" disabled="disabled" value="Hello, Des'ree">
+		<input type="password" placeholder="password" disabled="disabled" value="secret4">
+		<button onclick="fillElements('#group-disabled-attribute-prefilled input', 'filler')">fill</button>
+		<button onclick="fillElements('#group-disabled-attribute-prefilled input', '')">clear</button>
+		<button onclick="disableElements('#group-disabled-attribute-prefilled input', false)">enable</button>
+		<button onclick="disableElements('#group-disabled-attribute-prefilled input', true)">disable</button>
+	</div>
+
 	</div><!-- /.container -->
 
 	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
@@ -98,19 +151,33 @@
 		angular.module(['testApp'], ['ng.shims.placeholder'])
 		.run(function($rootScope, placeholderSniffer){
 			$rootScope.test = {
-				text: 'hello',
-				password: 'secret'
+				text: 'Hello, Ang',
+				password: 'secret1',
+				disabled_text: 'Hello, Carl',
+				disabled_password: 'secret3',
+				disabled_emptys: true,
+				disabled_prefilleds: true
 			};
 
 			// Force enable polyfill in all browsers for demo
 			placeholderSniffer.hasPlaceholder = function () { return false; };
 		});
 
-		var fillElements = function (str) {
-			var elements = document.querySelectorAll('.clearable');
+		function fillElements (selector, str) {
+			var elements = document.querySelectorAll(selector);
 			for (var i = 0; i < elements.length; i++) {
-				var elem = angular.element(elements[i]);
-				elem.val(str).triggerHandler('change');
+				angular.element(elements[i])
+					.val(str)
+					.triggerHandler('change');
+			}
+		}
+
+		function disableElements (selector, bool) {
+			var elements = document.querySelectorAll(selector);
+			for (var i = 0; i < elements.length; i++) {
+				angular.element(elements[i])
+					.prop('disabled', bool)
+					.triggerHandler('change');
 			}
 		}
 	</script>
