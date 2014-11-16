@@ -282,79 +282,11 @@ describe('placeholder', function() {
 		});
 	});
 
-	describe('on an empty text input with ngDisabled', function() {
-		var elem;
-
-		beforeEach(function() {
-			scope.form.disabler = true;
-			elem = angular.element('<input type="text" name="useremail" placeholder="E-Mail" ng-disabled="form.disabler" value="" />');
-			$compile(elem)(scope);
-			scope.$digest();
-		});
-
-		it('should be unselectable', function() {
-			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBe('on');
-		});
-
-		it('should become selectable when ngDisabled is set false', function() {
-			scope.$apply('form.disabler = false');
-			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBeUndefined();
-		});
-	});
-
-	describe('on a empty password input with ngDisabled', function() {
+	describe('on a empty password input with unselectable=on attribute', function() {
 		var pwd_field, pwd_clone;
 
 		beforeEach(function() {
-			scope.form.disabler = true;
-			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" ng-disabled="form.disabler" value="" />');
-			$compile(pwd_field)(scope);
-			pwd_clone = angular.element(pwd_field[0].previousElementSibling);
-			scope.$digest();
-		});
-
-		describe('the placeholder element', function() {
-			it('should be unselectable', function() {
-				expect(pwd_clone.val()).toBe('Password');
-				expect(pwd_clone.attr('unselectable')).toBe('on');
-			});
-
-			it('should become selectable when ngDisabled is set false', function() {
-				scope.$apply('form.disabler = false');
-				expect(pwd_clone.val()).toBe('Password');
-				expect(pwd_clone.attr('unselectable')).toBeUndefined();
-			});
-		});
-	});
-
-	describe('on an empty text input with disabled attribute', function() {
-		var elem;
-
-		beforeEach(function() {
-			elem = angular.element('<input type="text" name="useremail" placeholder="E-Mail" disabled="disabled" value="" />');
-			$compile(elem)(scope);
-		});
-
-		it('should be unselectable', function() {
-			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBe('on');
-		});
-
-		it('should become selectable when disabled attribute is removed', function() {
-			elem.removeAttr('disabled');
-			elem.triggerHandler('change');
-			expect(elem.val()).toBe('E-Mail');
-			expect(elem.attr('unselectable')).toBeUndefined();
-		});
-	});
-
-	describe('on a empty password input with disabled attribute', function() {
-		var pwd_field, pwd_clone;
-
-		beforeEach(function() {
-			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" disabled="disabled" value="" />');
+			pwd_field = angular.element('<input type="password" name="userpwd" placeholder="Password" unselectable="on" value="" />');
 			$compile(pwd_field)(scope);
 			pwd_clone = angular.element(pwd_field[0].previousElementSibling);
 		});
@@ -366,7 +298,7 @@ describe('placeholder', function() {
 			});
 
 			it('should become selectable when disabled attribute is removed', function() {
-				pwd_field.removeAttr('disabled');
+				pwd_field.removeAttr('unselectable');
 				pwd_field.triggerHandler('change');
 				expect(pwd_clone.val()).toBe('Password');
 				expect(pwd_clone.attr('unselectable')).toBeUndefined();

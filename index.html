@@ -21,8 +21,9 @@
 		/* Recommended placeholder style */
 		.empty { color: #a9a9a9; }
 
-		/* Emulate IE attribute for demo */
-		[unselectable=on] {
+		/* Emulate IE `onselectstart=return false` for demo */
+		[disabled].empty {
+			cursor: default;
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -131,12 +132,12 @@
 	</div>
 	<div id="group-disabled-attribute-prefilled" class="group has-placeholder pre-filled no-model has-disabled">
 		<h5>No model, pre-filled by value with disabled attribute</h5>
-		<input type="text" placeholder="text" disabled="disabled" value="Hello, Des'ree">
-		<input type="password" placeholder="password" disabled="disabled" value="secret4">
-		<button onclick="fillElements('#group-disabled-attribute-prefilled input', 'filler')">fill</button>
-		<button onclick="fillElements('#group-disabled-attribute-prefilled input', '')">clear</button>
-		<button onclick="disableElements('#group-disabled-attribute-prefilled input', false)">enable</button>
-		<button onclick="disableElements('#group-disabled-attribute-prefilled input', true)">disable</button>
+		<input type="text" placeholder="text" disabled="disabled" id="dp1" value="Hello, Des'ree">
+		<input type="password" placeholder="password" disabled="disabled" id="dp2" value="secret4">
+		<button onclick="fillElements('#dp1,#dp2', 'filler')">fill</button>
+		<button onclick="fillElements('#dp1,#dp2', '')">clear</button>
+		<button onclick="disableElements('#dp1,#dp2', false)">enable</button>
+		<button onclick="disableElements('#dp1,#dp2', true)">disable</button>
 	</div>
 
 	</div><!-- /.container -->
