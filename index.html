@@ -18,12 +18,12 @@
 		.ng-invalid { border-color: red; }
 		input:invalid { box-shadow: none; } /* suppress Firefox default style */
 
-		/* Recommended placeholder style */
+		/* Recommended placeholder styles */
 		.empty { color: #a9a9a9; }
+		[readonly].empty { cursor: default; }
 
 		/* Emulate IE `onselectstart=return false` for demo */
 		[disabled].empty {
-			cursor: default;
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -140,6 +140,26 @@
 		<button onclick="disableElements('#dp1,#dp2', true)">disable</button>
 	</div>
 
+	<br>
+
+	<div id="group-ngreadonly" class="group has-placeholder has-model separate-models has-ngreadonly">
+		<h5>ngReadonly</h5>
+		<input type="text" placeholder="text" ng-model="test.readonly_empty1" ng-readonly="test.readonly_emptys">
+		<input type="password" placeholder="password" ng-model="test.readonly_empty2" ng-readonly="test.readonly_emptys">
+		<input type="email" placeholder="email" ng-model="test.readonly_empty3" ng-readonly="test.readonly_emptys">
+		<textarea rows="1" placeholder="textarea" ng-model="test.readonly_empty4" ng-readonly="test.readonly_emptys"></textarea>
+	</div>
+	<div id="group-ngreadonly-prefilled" class="group has-placeholder pre-filled has-model separate-models has-ngreadonly">
+		<h5>Pre-filled by model with ngReadonly </h5>
+		<input type="text" placeholder="text" ng-model="test.readonly_text" ng-readonly="test.readonly_prefilleds">
+		<input type="password" placeholder="password" ng-model="test.readonly_password" ng-readonly="test.readonly_prefilleds">
+		<button ng-click="test.readonly_text = (test.readonly_password = 'filler')">fill</button>
+		<button ng-click="test.readonly_text = (test.readonly_password = '')">clear</button>
+		<button ng-click="test.readonly_prefilleds = false">read/write</button>
+		<button ng-click="test.readonly_prefilleds = true">readonly</button>
+	</div>
+
+
 	</div><!-- /.container -->
 
 	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
@@ -157,7 +177,11 @@
 				disabled_text: 'Hello, Carl',
 				disabled_password: 'secret3',
 				disabled_emptys: true,
-				disabled_prefilleds: true
+				disabled_prefilleds: true,
+				readonly_text: 'Hello, Eden',
+				readonly_password: 'secret5',
+				readonly_emptys: true,
+				readonly_prefilleds: true
 			};
 
 			// Force enable polyfill in all browsers for demo
