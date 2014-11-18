@@ -175,7 +175,39 @@
 		<button ng-click="test.required_text = (test.required_password = 'filler')">fill</button>
 		<button ng-click="test.required_text = (test.required_password = '')">clear</button>
 		<button ng-click="test.required_prefilleds = false">read/write</button>
-		<button ng-click="test.required_prefilleds = true">readonly</button>
+		<button ng-click="test.required_preks = true">readonly</button>
+	</div>
+
+	<br>
+
+	<div id="group-ngshowhide" class="group has-placeholder has-ngshowhide">
+		<h5>ngShow and ngHide</h5>
+		<input type="text" placeholder="text" ng-show="test.show_emptys">
+		<input type="password" placeholder="password" ng-show="test.show_emptys">
+		<button ng-click="test.show_emptys = !test.show_emptys">toggle</button>
+		<br>
+		<input type="text" placeholder="text" ng-hide="test.hide_emptys">
+		<input type="password" placeholder="password" ng-hide="test.hide_emptys">
+		<button ng-click="test.hide_emptys = !test.hide_emptys">toggle</button>
+	</div>
+	<div id="group-ngshowhide-prefilled" class="group has-placeholder pre-filled has-model separate-models has-ngshowhide">
+		<h5>ngShow and ngHide prefilled</h5>
+		<input type="text" placeholder="text" ng-model="test.show_text" ng-show="test.show_prefilleds">
+		<input type="password" placeholder="password" ng-model="test.show_password" ng-show="test.show_prefilleds">
+		<button ng-click="test.show_prefilleds = !test.show_prefilleds">toggle</button>
+		<button ng-click="test.show_text = (test.show_password = 'filler')">fill</button>
+		<button ng-click="test.show_text = (test.show_password = '')">clear</button>
+		<br>
+		<input type="text" placeholder="text" ng-model="test.hide_text" ng-hide="test.hide_prefilleds">
+		<input type="password" placeholder="password" ng-model="test.hide_password" ng-hide="test.hide_prefilleds">
+		<button ng-click="test.hide_prefilleds = !test.hide_prefilleds">toggle</button>
+		<button ng-click="test.hide_text = (test.hide_password = 'filler')">fill</button>
+		<button ng-click="test.hide_text = (test.hide_password = '')">clear</button>
+	</div>
+	<div id="group-ngcloak" class="group has-placeholder has-model separate-models has-ngcloak">
+		<h5>ngCloak</h5>
+		<input type="text" placeholder="text" ng-model="test.cloak_text" ng-cloak>
+		<input type="password" placeholder="password" ng-model="test.cloak_password" ng-cloak>
 	</div>
 
 	</div><!-- /.container -->
@@ -203,8 +235,15 @@
 				required_text: 'Hello, Fyodor',
 				required_password: 'secret6',
 				required_emptys: true,
-				required_prefilleds: true
-
+				required_prefilleds: true,
+				show_text: 'Hello, Grendel',
+				show_password: 'secret7',
+				show_emptys: true,
+				show_prefilleds: true,
+				hide_text: 'Hello, Halle',
+				hide_password: 'secret8',
+				hide_emptys: true,
+				hide_prefilleds: true
 			};
 
 			// Force enable polyfill in all browsers for demo
