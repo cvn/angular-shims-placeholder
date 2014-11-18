@@ -150,7 +150,7 @@
 		<textarea rows="1" placeholder="textarea" ng-model="test.readonly_empty4" ng-readonly="test.readonly_emptys"></textarea>
 	</div>
 	<div id="group-ngreadonly-prefilled" class="group has-placeholder pre-filled has-model separate-models has-ngreadonly">
-		<h5>Pre-filled by model with ngReadonly </h5>
+		<h5>Pre-filled by model with ngReadonly</h5>
 		<input type="text" placeholder="text" ng-model="test.readonly_text" ng-readonly="test.readonly_prefilleds">
 		<input type="password" placeholder="password" ng-model="test.readonly_password" ng-readonly="test.readonly_prefilleds">
 		<button ng-click="test.readonly_text = (test.readonly_password = 'filler')">fill</button>
@@ -159,6 +159,24 @@
 		<button ng-click="test.readonly_prefilleds = true">readonly</button>
 	</div>
 
+	<br>
+
+	<div id="group-ngrequired" class="group has-placeholder has-model separate-models has-ngrequired">
+		<h5>ngRequired</h5>
+		<input type="text" placeholder="text" ng-model="test.required_empty1" ng-required="test.required_emptys">
+		<input type="password" placeholder="password" ng-model="test.required_empty2" ng-required="test.required_emptys">
+		<input type="email" placeholder="email" ng-model="test.required_empty3" ng-required="test.required_emptys">
+		<textarea rows="1" placeholder="textarea" ng-model="test.required_empty4" ng-required="test.required_emptys"></textarea>
+	</div>
+	<div id="group-ngrequired-prefilled" class="group has-placeholder pre-filled has-model separate-models has-ngrequired">
+		<h5>Pre-filled by model with ngRequired</h5>
+		<input type="text" placeholder="text" ng-model="test.required_text" ng-required="test.required_prefilleds">
+		<input type="password" placeholder="password" ng-model="test.required_password" ng-required="test.required_prefilleds">
+		<button ng-click="test.required_text = (test.required_password = 'filler')">fill</button>
+		<button ng-click="test.required_text = (test.required_password = '')">clear</button>
+		<button ng-click="test.required_prefilleds = false">read/write</button>
+		<button ng-click="test.required_prefilleds = true">readonly</button>
+	</div>
 
 	</div><!-- /.container -->
 
@@ -181,7 +199,12 @@
 				readonly_text: 'Hello, Eden',
 				readonly_password: 'secret5',
 				readonly_emptys: true,
-				readonly_prefilleds: true
+				readonly_prefilleds: true,
+				required_text: 'Hello, Fyodor',
+				required_password: 'secret6',
+				required_emptys: true,
+				required_prefilleds: true
+
 			};
 
 			// Force enable polyfill in all browsers for demo
