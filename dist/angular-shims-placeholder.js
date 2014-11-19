@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.3.1 - 2014-11-03
+/*! angular-shims-placeholder - v0.3.2 - 2014-11-19
 * https://github.com/jrief/angular-shims-placeholder
 * Copyright (c) 2014 Jacob Rief; Licensed MIT */
 (function (angular, document, undefined) {
@@ -6,23 +6,25 @@
   angular.module('ng.shims.placeholder', []).service('placeholderSniffer', [
     '$document',
     function ($document) {
-      this.hasPlaceholder = function () {
+      this.emptyClassName = 'empty', this.hasPlaceholder = function () {
         var test = $document[0].createElement('input');
         return test.placeholder !== void 0;
       };
     }
   ]).directive('placeholder', [
     '$timeout',
+    '$document',
     'placeholderSniffer',
-    function ($timeout, placeholderSniffer) {
+    function ($timeout, $document, placeholderSniffer) {
       if (placeholderSniffer.hasPlaceholder())
         return {};
+      var documentListenersApplied = false;
       return {
         restrict: 'A',
         require: '?ngModel',
-        priority: 1,
+        priority: 110,
         link: function (scope, elem, attrs, ngModel) {
-          var orig_val = getValue(), domElem = elem[0], elemType = domElem.nodeName.toLowerCase(), isInput = elemType === 'input' || elemType === 'textarea', is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = 'empty', clone;
+          var orig_val = getValue(), domElem = elem[0], elemType = domElem.nodeName.toLowerCase(), isInput = elemType === 'input' || elemType === 'textarea', is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = placeholderSniffer.emptyClassName, hiddenClassName = 'ng-hide', clone;
           if (!text || !isInput) {
             return;
           }
@@ -49,33 +51,43 @@
               }
             };
           }
+          if (!documentListenersApplied) {
+            $document.on('selectstart', function (e) {
+              var elmn = angular.element(e.target);
+              if (elmn.hasClass(emptyClassName) && elmn.prop('disabled')) {
+                e.preventDefault();
+              }
+            });
+            documentListenersApplied = true;
+          }
           function updateValue(e) {
             var val = elem.val();
             if (elem.hasClass(emptyClassName) && val === text) {
               return;
             }
-            if (document.documentMode <= 11) {
-              $timeout(function () {
-                setValue(val);
-              }, 0);
-            } else {
+            conditionalDefer(function () {
               setValue(val);
+            });
+          }
+          function conditionalDefer(callback) {
+            if (document.documentMode <= 11) {
+              $timeout(callback, 0);
+            } else {
+              callback();
             }
           }
           function setValue(val) {
             if (!val && domElem !== document.activeElement) {
               elem.addClass(emptyClassName);
-              if (is_pwd) {
-                showPasswordPlaceholder();
-              } else {
+              if (!is_pwd) {
                 elem.val(text);
               }
             } else {
               elem.removeClass(emptyClassName);
-              if (is_pwd) {
-                hidePasswordPlaceholder();
-              }
               elem.val(val);
+            }
+            if (is_pwd) {
+              updatePasswordPlaceholder();
             }
           }
           function getValue() {
@@ -91,27 +103,64 @@
             }
             return val;
           }
+          function setAttrUnselectable(elmn, enable) {
+            if (enable) {
+              elmn.attr('unselectable', 'on');
+            } else {
+              elmn.removeAttr('unselectable');
+            }
+          }
           function setupPasswordPlaceholder() {
             clone = angular.element('<input type="text" value="' + text + '"/>');
             stylePasswordPlaceholder();
-            clone.addClass(emptyClassName).addClass('ng-hide').bind('focus', hidePasswordPlaceholderAndFocus);
+            clone.addClass(emptyClassName).addClass(hiddenClassName).bind('focus', hidePasswordPlaceholderAndFocus);
             domElem.parentNode.insertBefore(clone[0], domElem);
+            var watchAttrs = [
+                attrs.ngDisabled,
+                attrs.ngReadonly,
+                attrs.ngRequired,
+                attrs.ngShow,
+                attrs.ngHide
+              ];
+            for (var i = 0; i < watchAttrs.length; i++) {
+              if (watchAttrs[i]) {
+                scope.$watch(watchAttrs[i], updatePasswordPlaceholder);
+              }
+            }
+          }
+          function updatePasswordPlaceholder() {
+            stylePasswordPlaceholder();
+            if (isNgHidden()) {
+              clone.addClass(hiddenClassName);
+            } else if (elem.hasClass(emptyClassName) && domElem !== document.activeElement) {
+              showPasswordPlaceholder();
+            } else {
+              hidePasswordPlaceholder();
+            }
           }
           function stylePasswordPlaceholder() {
-            clone.val(text).attr('class', elem.attr('class') || '').attr('style', elem.attr('style') || '');
+            clone.val(text).attr('class', elem.attr('class') || '').attr('style', elem.attr('style') || '').prop('disabled', elem.prop('disabled')).prop('readOnly', elem.prop('readOnly')).prop('required', elem.prop('required'));
+            setAttrUnselectable(clone, elem.attr('unselectable') === 'on');
           }
           function showPasswordPlaceholder() {
-            stylePasswordPlaceholder();
-            elem.addClass('ng-hide');
-            clone.removeClass('ng-hide');
+            elem.addClass(hiddenClassName);
+            clone.removeClass(hiddenClassName);
           }
           function hidePasswordPlaceholder() {
-            clone.addClass('ng-hide');
-            elem.removeClass('ng-hide');
+            clone.addClass(hiddenClassName);
+            elem.removeClass(hiddenClassName);
           }
           function hidePasswordPlaceholderAndFocus() {
             hidePasswordPlaceholder();
             domElem.focus();
+          }
+          function isNgHidden() {
+            var hasNgShow = typeof attrs.ngShow !== 'undefined', hasNgHide = typeof attrs.ngHide !== 'undefined';
+            if (hasNgShow || hasNgHide) {
+              return hasNgShow && !scope.$eval(attrs.ngShow) || hasNgHide && scope.$eval(attrs.ngHide);
+            } else {
+              return false;
+            }
           }
         }
       };
