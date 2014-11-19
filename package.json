@@ -31,14 +31,14 @@
   "devDependencies": {
     "bower": "latest",
     "grunt": ">= 0.4.0",
-    "grunt-bump": "0.0.16",
+    "grunt-bump": "latest",
     "grunt-contrib-concat": "latest",
-    "grunt-contrib-connect": "^0.8.0",
+    "grunt-contrib-connect": "latest",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-ngmin": "0.0.2",
-    "grunt-open": "^0.2.3",
+    "grunt-open": "latest",
     "karma": "0.8.5"
   },
   "keywords": [
