@@ -2,8 +2,8 @@ angular-shims-placeholder
 =========================
 [![Bower version](https://badge.fury.io/bo/angular-shims-placeholder.svg)](http://badge.fury.io/bo/angular-shims-placeholder)
 [![npm version](https://badge.fury.io/js/angular-shims-placeholder.svg)](http://badge.fury.io/js/angular-shims-placeholder)
-[![Build Status](https://travis-ci.org/cvn/angular-shims-placeholder.svg?branch=master)](https://travis-ci.org/jrief/angular-shims-placeholder)
-[![devDependency Status](https://david-dm.org/cvn/angular-shims-placeholder/dev-status.svg)](https://david-dm.org/jrief/angular-shims-placeholder#info=devDependencies)
+[![Build Status](https://travis-ci.org/cvn/angular-shims-placeholder.svg?branch=master)](https://travis-ci.org/cvn/angular-shims-placeholder)
+[![devDependency Status](https://david-dm.org/cvn/angular-shims-placeholder/dev-status.svg)](https://david-dm.org/cvn/angular-shims-placeholder#info=devDependencies)
 
 Angular directive to emulate the `placeholder` attribute on text and password input fields for
 old browsers, such as IE9, IE8, and below. Also works on textareas and html5 input types.
