@@ -69,11 +69,9 @@ Known Issues
 Authors
 -------
 
-[Jacob Rief](https://github.com/jrief)  
-[Chad von Nau](https://github.com/cvn)
+Original author: [Jacob Rief](https://github.com/jrief)  
+Maintained by: [Chad von Nau](https://github.com/cvn)
 
 License
 -------
 Released under the terms of MIT License.
-
-Copyright (C) 2013, Jacob Rief <jacob.rief@gmail.com>

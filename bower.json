@@ -1,15 +1,21 @@
 {
   "name": "angular-shims-placeholder",
   "description": "Angular directive to emulate the `placeholder` attribute on text and password input fields for old browsers, such as IE9, IE8, and below",
-  "version": "0.3.2",
-  "homepage": "https://github.com/jrief/angular-shims-placeholder",
-  "authors": [{
-    "name": "Jacob Rief",
-    "email": "jacob.rief@gmail.com"
-  }],
+  "version": "0.3.3",
+  "homepage": "https://github.com/cvn/angular-shims-placeholder",
+  "authors": [
+    {
+      "name": "Chad von Nau",
+      "homepage": "https://github.com/cvn"
+    },
+    {
+      "name": "Jacob Rief",
+      "email": "jacob.rief@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/jrief/angular-shims-placeholder.git"
+    "url": "git://github.com/cvn/angular-shims-placeholder.git"
   },
   "keywords": [
     "angularjs",
@@ -17,7 +23,7 @@
     "polyfill"
   ],
   "license": [
-    "https://github.com/jrief/angular-shims-placeholder/LICENSE-MIT.txt"
+    "https://github.com/cvn/angular-shims-placeholder/LICENSE-MIT.txt"
   ],
   "main": [
     "./dist/angular-shims-placeholder.js"
