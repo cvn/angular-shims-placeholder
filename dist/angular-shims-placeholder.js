@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.3.3 - 2014-12-12
+/*! angular-shims-placeholder - v0.3.4 - 2014-12-17
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2014 Chad von Nau; Licensed MIT */
 (function (angular, document, undefined) {
@@ -25,9 +25,16 @@
         priority: 110,
         link: function (scope, elem, attrs, ngModel) {
           var orig_val = getValue(), domElem = elem[0], elemType = domElem.nodeName.toLowerCase(), isInput = elemType === 'input' || elemType === 'textarea', is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = placeholderSniffer.emptyClassName, hiddenClassName = 'ng-hide', clone;
-          if (!text || !isInput) {
+          if (!isInput) {
             return;
           }
+          attrs.$observe('placeholder', function (newValue) {
+            if (elem.hasClass(emptyClassName) && elem.val() === text) {
+              elem.val('');
+            }
+            text = newValue;
+            updateValue();
+          });
           if (is_pwd) {
             setupPasswordPlaceholder();
           }
@@ -62,7 +69,7 @@
           }
           function updateValue(e) {
             var val = elem.val();
-            if (elem.hasClass(emptyClassName) && val === text) {
+            if (elem.hasClass(emptyClassName) && val && val === text) {
               return;
             }
             conditionalDefer(function () {
