@@ -305,4 +305,32 @@ describe('placeholder', function() {
 			});
 		});
 	});
+
+	describe('updates when attribute updates', function() {
+		var elem;
+
+		beforeEach(function() {
+			scope.test = "value before";
+			scope.model = "";
+			elem = angular.element('<input type="text" placeholder="{{ test }}" ng-model="model" />');
+			$compile(elem)(scope);
+			scope.$digest();
+		});
+
+		it('should update when the attribute value is updated', function() {
+			expect(elem.val()).toBe('value before');
+			scope.test = "value after";
+			scope.$digest();
+			expect(elem.val()).toBe('value after');
+		});
+
+		it('should not update when the input field has text', function() {
+			expect(elem.val()).toBe('value before');
+			scope.model = "something";
+			scope.$digest();
+			scope.test = "value after";
+			scope.$digest();
+			expect(elem.val()).toBe('something');
+		});
+	});
 });
