@@ -206,6 +206,16 @@
 		</div>
 	</div>
 
+	<br>
+
+	<div id="group-dynamic" class="group has-placeholder has-dynamic">
+		<h5>Dynamic placeholder</h5>
+		<input type="text" placeholder="{{test.dynamic_text}}">
+		<input type="text" ng-model="test.dynamic_text">
+		<input type="password" placeholder="{{test.dynamic_password}}">
+		<input type="text" ng-model="test.dynamic_password">
+	</div>
+
 	</div><!-- /.container -->
 
 	<!-- Load angular.js from CDN if local copy is missing. http://stackoverflow.com/a/5531821/490592 -->
@@ -234,7 +244,9 @@
 				required_prefilleds: true,
 				show_password: 'secret7',
 				hide_password: 'secret8',
-				show_inputs: true
+				show_inputs: true,
+				dynamic_text: 'text',
+				dynamic_password: 'password'
 			};
 
 			// Force enable polyfill in all browsers for demo
