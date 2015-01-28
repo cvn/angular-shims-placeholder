@@ -54,6 +54,8 @@ This directive is compatible with ngModel, ngDisabled, ngReadonly, ngRequired, n
 
 If you modify a shimmed input from outside of Angular, use the 'change' event to update the placeholder display. e.g. `elem.triggerHandler('change')`
 
+If you modify the placeholder attribute outside of angular, use the 'placeholder-change' event to update the placeholder text itself.  sytax as follows `elem.triggerHandler('placeholder-change', $('#myInput').attr('placeholder'))`
+
 Known Issues
 ------------
 * Ignores text input from drag and drop
