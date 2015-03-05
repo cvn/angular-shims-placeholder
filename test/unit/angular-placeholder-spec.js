@@ -309,7 +309,7 @@ describe('placeholder', function() {
 	describe('updates when attribute updates', function() {
 		var elem;
 
-		beforeEach(function () {
+		beforeEach(function() {
 			scope.test = "value before";
 			scope.model = "";
 			elem = angular.element('<input type="text" placeholder="{{ test }}" ng-model="model" />');
@@ -334,7 +334,7 @@ describe('placeholder', function() {
 		});
 	});
 
-	describe('on an input with ngModel value 0', function () {
+	describe('on an input with ngModel value 0', function() {
 	  var elem;
 
 	  beforeEach(function () {
