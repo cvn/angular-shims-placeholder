@@ -333,4 +333,21 @@ describe('placeholder', function() {
 			expect(elem.val()).toBe('something');
 		});
 	});
+
+	describe('on an input with ngModel value 0', function() {
+	  var elem;
+
+	  beforeEach(function () {
+	    scope.model = 0;
+	    elem = angular.element('<input type="text" placeholder="Empty" ng-model="model" />');
+	    $compile(elem)(scope);
+	    scope.$digest();
+	  });
+
+	  it('should display 0', function () {
+	    console.log(elem.val());
+	    expect(elem.val()).toBe('0');
+	  });
+	});
+
 });
