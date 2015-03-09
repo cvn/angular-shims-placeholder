@@ -238,6 +238,13 @@ describe('placeholder', function() {
 				expect(elem.hasClass('empty')).toBe(false);
 			});
 		});
+
+		it('should change the value when the placeholder value changes', function() {
+			elem.attr('placeholder', 'update');
+			elem.triggerHandler('change');
+			expect(elem.val()).toBe('update');
+			expect(elem.hasClass('empty')).toBe(true);
+		});
 	});
 
 	describe('on a pre-filled input without ngModel', function() {
@@ -266,6 +273,13 @@ describe('placeholder', function() {
 				expect(elem.val()).toBe('existing');
 				expect(elem.hasClass('empty')).toBe(false);
 			});
+		});
+
+		it('should not change the value when the placeholder value changes', function() {
+			elem.attr('placeholder', 'update');
+			elem.triggerHandler('change');
+			expect(elem.val()).toBe('existing');
+			expect(elem.hasClass('empty')).toBe(false);
 		});
 	});
 

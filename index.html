@@ -215,6 +215,14 @@
 		<input type="password" placeholder="{{test.dynamic_password}}">
 		<input type="text" ng-model="test.dynamic_password">
 	</div>
+	<div id="group-dynamic-nomodel" class="group has-placeholder no-model">
+		<h5>No model, change placeholder manually</h5>
+		<input type="text" placeholder="text" id="nd1">
+		<input type="password" placeholder="password" id="nd2">
+		<button onclick="fillElements('#nd1,#nd2', 'filler')">fill</button>
+		<button onclick="fillElements('#nd1,#nd2', '')">clear</button>
+		<button onclick="updatePlaceholders('#nd1,#nd2', Date.now())">change</button>
+	</div>
 
 	</div><!-- /.container -->
 
@@ -269,6 +277,13 @@
 					.prop('disabled', bool)
 					.triggerHandler('change');
 			}
+		}
+
+		function updatePlaceholders (selector, str) {
+			var elements = document.querySelectorAll(selector);
+			angular.element(elements)
+				.attr('placeholder', str)
+				.triggerHandler('change');
 		}
 	</script>
 </body>
