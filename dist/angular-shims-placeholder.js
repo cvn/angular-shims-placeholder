@@ -1,6 +1,6 @@
-/*! angular-shims-placeholder - v0.3.4 - 2014-12-17
+/*! angular-shims-placeholder - v0.3.5 - 2015-03-09
 * https://github.com/cvn/angular-shims-placeholder
-* Copyright (c) 2014 Chad von Nau; Licensed MIT */
+* Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function (angular, document, undefined) {
   'use strict';
   angular.module('ng.shims.placeholder', []).service('placeholderSniffer', [
@@ -14,8 +14,9 @@
   ]).directive('placeholder', [
     '$timeout',
     '$document',
+    '$interpolate',
     'placeholderSniffer',
-    function ($timeout, $document, placeholderSniffer) {
+    function ($timeout, $document, $interpolate, placeholderSniffer) {
       if (placeholderSniffer.hasPlaceholder())
         return {};
       var documentListenersApplied = false;
@@ -29,11 +30,7 @@
             return;
           }
           attrs.$observe('placeholder', function (newValue) {
-            if (elem.hasClass(emptyClassName) && elem.val() === text) {
-              elem.val('');
-            }
-            text = newValue;
-            updateValue();
+            changePlaceholder(newValue);
           });
           if (is_pwd) {
             setupPasswordPlaceholder();
@@ -48,7 +45,9 @@
           });
           elem.bind('blur', updateValue);
           if (!ngModel) {
-            elem.bind('change', updateValue);
+            elem.bind('change', function () {
+              changePlaceholder($interpolate(elem.attr('placeholder'))(scope));
+            });
           }
           if (ngModel) {
             ngModel.$render = function () {
@@ -84,7 +83,7 @@
             }
           }
           function setValue(val) {
-            if (!val && domElem !== document.activeElement) {
+            if (!val && val !== 0 && domElem !== document.activeElement) {
               elem.addClass(emptyClassName);
               if (!is_pwd) {
                 elem.val(text);
@@ -109,6 +108,13 @@
               val = '';
             }
             return val;
+          }
+          function changePlaceholder(value) {
+            if (elem.hasClass(emptyClassName) && elem.val() === text) {
+              elem.val('');
+            }
+            text = value;
+            updateValue();
           }
           function setAttrUnselectable(elmn, enable) {
             if (enable) {
