@@ -42,21 +42,19 @@ Example:
 <input type="text" name="email" placeholder="Enter your email" />
 ```
 
-Note
-----
-Remember to adapt your styles for forms using this placeholder directive. To an empty input field,
-the class `empty` is added. So, when defining your styles, use a light grey, or similar, as text-color,
-to distinguish optically between labels and real input.
+Notes
+-----
+The class `empty` is added when the input is empty and the placeholder is
+showing. Make it look like a placeholder e.g. `.empty { color: #a9a9a9; }`
+
+If you modify a shimmed input from outside of Angular, trigger the 'change'
+event to update the placeholder display e.g. `elem.triggerHandler('change')`
 
 Compatibility
 -------------
-Works with Angular 1.2, 1.3, and 1.4.
-
-Compatible with ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, and ngHide.
-
-Works with ngAnimate, but placeholder text pops in after animations complete. Angular 1.3+ only.
-
-If you modify a shimmed input from outside of Angular, use the 'change' event to update the placeholder display. e.g. `elem.triggerHandler('change')`
+* Angular 1.2, 1.3, 1.4
+* ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, ngHide
+* ngAnimate (Angular 1.3+ only)
 
 Known Issues
 ------------
@@ -67,6 +65,7 @@ Known Issues
 * No way for an individual input to opt out
 * Not tested with ngSubmit
 * Not tested with ngClass
+* ngAnimate: Password placeholder text pops in after animations complete
 
 Authors
 -------
