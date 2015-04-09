@@ -24,6 +24,7 @@
       "url": "https://github.com/cvn/angular-shims-placeholder/LICENSE-MIT.txt"
     }
   ],
+  "main": "index.js",
   "engines": {
     "node": ">= 0.6.0"
   },
