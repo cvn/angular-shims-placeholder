@@ -50,7 +50,11 @@ to distinguish optically between labels and real input.
 
 Compatibility
 -------------
-This directive is compatible with ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, and ngHide.
+Works with Angular 1.2, 1.3, and 1.4.
+
+Compatible with ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, and ngHide.
+
+Works with ngAnimate, but placeholder text pops in after animations complete. Angular 1.3+ only.
 
 If you modify a shimmed input from outside of Angular, use the 'change' event to update the placeholder display. e.g. `elem.triggerHandler('change')`
 
@@ -61,7 +65,6 @@ Known Issues
 * IE8/9: Disabled textareas show the text insertion cursor on hover. This is due to an IE bug.
 * IE8/9: Clearing a filled input while its text is selected can cause the resulting placeholder text to appear selected
 * No way for an individual input to opt out
-* Not tested with ngAnimate
 * Not tested with ngSubmit
 * Not tested with ngClass
 
