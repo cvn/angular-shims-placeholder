@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.3.6 - 2015-03-09
+/*! angular-shims-placeholder - v0.4.0 - 2015-04-08
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function (angular, document, undefined) {
@@ -15,11 +15,12 @@
     '$timeout',
     '$document',
     '$interpolate',
+    '$animate',
     'placeholderSniffer',
-    function ($timeout, $document, $interpolate, placeholderSniffer) {
+    function ($timeout, $document, $interpolate, $animate, placeholderSniffer) {
       if (placeholderSniffer.hasPlaceholder())
         return {};
-      var documentListenersApplied = false;
+      var documentListenersApplied = false, supportsAnimatePromises = parseFloat(angular.version.full) >= 1.3;
       return {
         restrict: 'A',
         require: '?ngModel',
@@ -85,15 +86,14 @@
           function setValue(val) {
             if (!val && val !== 0 && domElem !== document.activeElement) {
               elem.addClass(emptyClassName);
-              if (!is_pwd) {
-                elem.val(text);
-              }
+              elem.val(!is_pwd ? text : '');
             } else {
               elem.removeClass(emptyClassName);
               elem.val(val);
             }
             if (is_pwd) {
               updatePasswordPlaceholder();
+              asyncUpdatePasswordPlaceholder();
             }
           }
           function getValue() {
@@ -137,7 +137,7 @@
               ];
             for (var i = 0; i < watchAttrs.length; i++) {
               if (watchAttrs[i]) {
-                scope.$watch(watchAttrs[i], updatePasswordPlaceholder);
+                scope.$watch(watchAttrs[i], asyncUpdatePasswordPlaceholder);
               }
             }
           }
@@ -149,6 +149,13 @@
               showPasswordPlaceholder();
             } else {
               hidePasswordPlaceholder();
+            }
+          }
+          function asyncUpdatePasswordPlaceholder() {
+            if (supportsAnimatePromises) {
+              $animate.addClass(elem, '').then(updatePasswordPlaceholder);
+            } else {
+              $animate.addClass(elem, '', updatePasswordPlaceholder);
             }
           }
           function stylePasswordPlaceholder() {
