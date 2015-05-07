@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.4.1 - 2015-04-09
+/*! angular-shims-placeholder - v0.4.1 - 2015-05-07
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function (angular, document, undefined) {
@@ -20,11 +20,11 @@
     function ($timeout, $document, $interpolate, $animate, placeholderSniffer) {
       if (placeholderSniffer.hasPlaceholder())
         return {};
-      var documentListenersApplied = false, supportsAnimatePromises = parseFloat(angular.version.full) >= 1.3;
+      var documentListenersApplied = false, supportsAnimatePromises = parseFloat(angular.version.full) >= 1.3, requiresHighPriority = parseFloat(angular.version.full) >= 1.2;
       return {
         restrict: 'A',
         require: '?ngModel',
-        priority: 110,
+        priority: requiresHighPriority ? 110 : 0,
         link: function (scope, elem, attrs, ngModel) {
           var orig_val = getValue(), domElem = elem[0], elemType = domElem.nodeName.toLowerCase(), isInput = elemType === 'input' || elemType === 'textarea', is_pwd = attrs.type === 'password', text = attrs.placeholder, emptyClassName = placeholderSniffer.emptyClassName, hiddenClassName = 'ng-hide', clone;
           if (!isInput) {
@@ -59,7 +59,7 @@
             };
           }
           if (!documentListenersApplied) {
-            $document.on('selectstart', function (e) {
+            $document.bind('selectstart', function (e) {
               var elmn = angular.element(e.target);
               if (elmn.hasClass(emptyClassName) && elmn.prop('disabled')) {
                 e.preventDefault();
@@ -159,7 +159,8 @@
             }
           }
           function stylePasswordPlaceholder() {
-            clone.val(text).attr('class', elem.attr('class') || '').attr('style', elem.attr('style') || '').prop('disabled', elem.prop('disabled')).prop('readOnly', elem.prop('readOnly')).prop('required', elem.prop('required'));
+            clone.val(text);
+            clone.attr('class', elem.attr('class') || '').attr('style', elem.attr('style') || '').prop('disabled', elem.prop('disabled')).prop('readOnly', elem.prop('readOnly')).prop('required', elem.prop('required'));
             setAttrUnselectable(clone, elem.attr('unselectable') === 'on');
           }
           function showPasswordPlaceholder() {
