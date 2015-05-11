@@ -6,7 +6,7 @@ angular-shims-placeholder
 [![devDependency Status](https://david-dm.org/cvn/angular-shims-placeholder/dev-status.svg)](https://david-dm.org/cvn/angular-shims-placeholder#info=devDependencies)
 
 Angular directive to emulate the `placeholder` attribute on text and password input fields for
-old browsers, such as IE9, IE8, and below. Also works on textareas and html5 input types.
+old browsers, such as IE9, IE8, and IE7. Also works on textareas and html5 input types.
 
 This directive works in both directions, which means that changing the value from inside the model 
 is honoured in the form.  
@@ -52,12 +52,14 @@ event to update the placeholder display e.g. `elem.triggerHandler('change')`
 
 Compatibility
 -------------
-* Angular 1.2, 1.3, 1.4
+* Angular 1.0.8 - 1.4
+* IE9, IE8*, IE7* (see known issues)
 * ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, ngHide
 * ngAnimate (Angular 1.3+ only)
 
 Known Issues
 ------------
+* Angular 1.3 dropped support for IE8, and 1.2 dropped IE7. If you need to support those browsers, use an older version of Angular.
 * Ignores text input from drag and drop
 * Does not support modern-style placeholders that persist until text is entered
 * IE8/9: Disabled textareas show the text insertion cursor on hover. This is due to an IE bug.
@@ -66,6 +68,7 @@ Known Issues
 * Not tested with ngSubmit
 * Not tested with ngClass
 * ngAnimate: Password placeholder text pops in after animations complete
+* The unit tests only work with Angular 1.2 and up
 
 Authors
 -------
