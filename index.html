@@ -242,39 +242,7 @@
 
 	<script src="lib/angular-placeholder.js"></script>
 	<script>
-
-		var patchNgAnimate = parseFloat(angular.version.full) < 1.2;
-
-		var dependencies = ['ng.shims.placeholder'];
-
-		if (patchNgAnimate) {
-	    	angular.module('ngAnimatePatch', [])
-	            .provider('$animate', function () {
-	                this.$get = [function () {
-	                    return {
-	                    	addClass: function (elem, className, callback) {
-	                    		elem.addClass(className);
-
-	                    		if (angular.isFunction(callback)) {
-	                    			callback();
-	                    		}
-	                    	},
-
-	                    	removeClass: function (elem, className, callback) {
-	                    		elem.removeClass(className);
-
-	                    		if (angular.isFunction(callback)) {
-	                    			callback();
-	                    		}
-	                    	}
-	                    };
-	                }];
-	            });
-
-	        dependencies.push('ngAnimatePatch');
-        }
-
-		angular.module(['testApp'], dependencies)
+		angular.module(['testApp'], ['ng.shims.placeholder'])
 		.run(function($rootScope, placeholderSniffer){
 
 			$rootScope.test = {
