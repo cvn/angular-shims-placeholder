@@ -28,6 +28,12 @@ module.exports = function(grunt) {
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
+		ngAnnotate: {
+			controllers: {
+				src: ['lib/*.js'],
+				dest: 'dist/<%= pkg.name %>.js'
+			}
+		},
 		concat: {
 			options: {
 				banner: '<%= banner %>',
@@ -108,7 +114,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-ngmin');
+	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-open');
 
 	// Default task.
@@ -119,7 +125,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('travis-ci', ['jshint', 'karma:travis-ci']);
 
 	// Build task.
-	grunt.registerTask('build', ['ngmin', 'concat', 'uglify']);
+	grunt.registerTask('build', ['ngAnnotate', 'concat', 'uglify']);
 
 	// Dev task.
 	grunt.registerTask('dev', ['connect', 'open', 'watch']);
