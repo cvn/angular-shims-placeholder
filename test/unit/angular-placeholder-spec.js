@@ -364,4 +364,19 @@ describe('placeholder', function() {
 	  });
 	});
 
+	describe('on an input with ngAttrPlaceholder', function() {
+		var elem;
+
+		beforeEach(function () {
+			elem = angular.element('<input type="text" ng-attr-placeholder="Some text" ng-model="form.someText"/>');
+			$compile(elem)(scope);
+		});
+
+		it('should display the placeholder as input value', function() {
+			expect(elem.val()).toBe('Some text');
+			expect(elem.hasClass('empty')).toBe(true);
+			expect(scope.form.someText).toBeUndefined();
+		});
+	});
+
 });

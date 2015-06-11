@@ -224,6 +224,14 @@
 		<button onclick="updatePlaceholders('#nd1,#nd2', +new Date())">change</button>
 	</div>
 
+	<br>
+
+	<div id="group-ngattr" class="group has-placeholder has-dynamic has-ngattr">
+		<h5>ngAttrPlaceholder</h5>
+		<input type="text" ng-attr-placeholder="{{test.dynamic_text}}">
+		<input type="password" ng-attr-placeholder="{{test.dynamic_password}}">
+	</div>
+
 	</div><!-- /.container -->
 
 
