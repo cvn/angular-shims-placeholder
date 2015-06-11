@@ -54,7 +54,7 @@ Compatibility
 -------------
 * Angular 1.0.8 - 1.4
 * IE9, IE8, IE7 * (see known issues)
-* ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, ngHide
+* ngModel, ngDisabled, ngReadonly, ngRequired, ngShow, ngHide, ngAttrPlaceholder
 * ngAnimate (Angular 1.3+ only)
 
 Known Issues
