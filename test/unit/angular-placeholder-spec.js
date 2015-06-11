@@ -379,4 +379,18 @@ describe('placeholder', function() {
 		});
 	});
 
+	describe('on a password input with ngAttrPlaceholder whose value is undefined', function() {
+		var elem, clone;
+
+		beforeEach(function () {
+			elem = angular.element('<input type="password" ng-attr-placeholder="{{undefined}}" ng-model="form.somePassword"/>');
+			$compile(elem)(scope);
+			clone = angular.element(elem[0].previousElementSibling);
+		});
+
+		it('should display an empty placeholder', function() {
+			expect(clone.val()).toBe('');
+		});
+	});
+
 });
