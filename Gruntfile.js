@@ -22,14 +22,8 @@ module.exports = function(grunt) {
 				push: false
 			}
 		},
-		ngmin: {
-			dist: {
-				src: ['lib/*.js'],
-				dest: 'dist/<%= pkg.name %>.js'
-			}
-		},
 		ngAnnotate: {
-			controllers: {
+			dist: {
 				src: ['lib/*.js'],
 				dest: 'dist/<%= pkg.name %>.js'
 			}
@@ -40,7 +34,7 @@ module.exports = function(grunt) {
 				stripBanners: true
 			},
 			dist: {
-				src: '<%= ngmin.dist.dest %>',
+				src: '<%= ngAnnotate.dist.dest %>',
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
@@ -79,7 +73,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			build: {
-				files: '<%= ngmin.dist.src %>',
+				files: '<%= ngAnnotate.dist.src %>',
 				tasks: ['build']
 			},
 			livereload: {
@@ -87,7 +81,7 @@ module.exports = function(grunt) {
 					livereload: true
 				},
 				files: [
-					'<%= ngmin.dist.src %>',
+					'<%= ngAnnotate.dist.src %>',
 					'<%= demo %>'
 				]
 			}
