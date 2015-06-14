@@ -23,6 +23,9 @@ module.exports = function(grunt) {
 			}
 		},
 		ngAnnotate: {
+			options: {
+				singleQuotes: true
+			},
 			dist: {
 				src: ['lib/*.js'],
 				dest: 'dist/<%= pkg.name %>.js'
