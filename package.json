@@ -42,7 +42,7 @@
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
-    "grunt-ngmin": "0.0.2",
+    "grunt-ng-annotate": "latest",
     "grunt-open": "latest",
     "karma": "0.8.5"
   },
