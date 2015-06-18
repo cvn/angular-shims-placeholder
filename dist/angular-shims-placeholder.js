@@ -1,19 +1,19 @@
-/*! angular-shims-placeholder - v0.4.3 - 2015-06-14
+/*! angular-shims-placeholder - v0.4.4 - 2015-06-18
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function(angular, document, undefined) {
 'use strict';
 
 angular.module('ng.shims.placeholder', [])
-.service('placeholderSniffer', ["$document", function($document){
+.service('placeholderSniffer', ['$document', function($document){
 	this.emptyClassName = 'empty',
 	this.hasPlaceholder = function() {
 		// test for native placeholder support
-		var test = $document[0].createElement("input");
+		var test = $document[0].createElement('input');
 		return (test.placeholder !== void 0);
 	};
 }])
-.directive('placeholder', ["$timeout", "$document", "$interpolate", "$injector", "placeholderSniffer", function($timeout, $document, $interpolate, $injector, placeholderSniffer) {
+.directive('placeholder', ['$timeout', '$document', '$interpolate', '$injector', 'placeholderSniffer', function($timeout, $document, $interpolate, $injector, placeholderSniffer) {
 	if (placeholderSniffer.hasPlaceholder()) return {};
 
 	var documentListenersApplied = false,
@@ -67,8 +67,8 @@ angular.module('ng.shims.placeholder', [])
 
 			// handler for model-less inputs to interact with non-angular code
 			if (!ngModel) {
-				elem.bind('change', function () {
-					changePlaceholder($interpolate(elem.attr('placeholder') || '')(scope));
+				elem.bind('change', function (event) {
+					changePlaceholder($interpolate(elem.attr('placeholder') || '')(scope), event);
 				});
 			}
 
@@ -82,7 +82,7 @@ angular.module('ng.shims.placeholder', [])
 					//
 					// TODO: remove when tab key behavior is fixed in
 					// angular core
-					if (domElem === document.activeElement && !elem.val()) {
+					if (isActiveElement(domElem) && !elem.val()) {
 						domElem.select();
 					}
 				};
@@ -101,16 +101,16 @@ angular.module('ng.shims.placeholder', [])
 				documentListenersApplied = true;
 			}
 
-			function updateValue(e) {
+			function updateValue(event) {
 				var val = elem.val();
 
 				// don't update from placeholder, helps debounce
 				if (elem.hasClass(emptyClassName) && val && val === text) { return; }
 
-				conditionalDefer(function(){ setValue(val); });
+				conditionalDefer(function(){ setValue(val); }, event);
 			}
 
-			function conditionalDefer(callback) {
+			function conditionalDefer(callback, event) {
 				// IE8/9: ngModel uses a keydown handler with deferrered
 				// execution to check for changes to the input. this $timeout 
 				// prevents callback from firing before the keydown handler,
@@ -119,7 +119,7 @@ angular.module('ng.shims.placeholder', [])
 				//
 				// TODO: remove this function when tab key behavior is fixed in
 				// angular core
-				if (document.documentMode <= 11) {
+				if (document.documentMode <= 11 && event) {
 					$timeout(callback, 0);
 				} else {
 					callback();
@@ -127,7 +127,7 @@ angular.module('ng.shims.placeholder', [])
 			}
 
 			function setValue(val) {
-				if (!val && val !== 0 && domElem !== document.activeElement) {
+				if (!val && val !== 0 && !isActiveElement(domElem)) {
 					// show placeholder when necessary
 					elem.addClass(emptyClassName);
 					elem.val(!is_pwd ? text : '');
@@ -166,12 +166,22 @@ angular.module('ng.shims.placeholder', [])
 				return val;
 			}
 
-			function changePlaceholder(value) {
+			function changePlaceholder(value, event) {
 				if (elem.hasClass(emptyClassName) && elem.val() === text) {
 					elem.val('');
 				}
 				text = value;
-				updateValue();
+				updateValue(event);
+			}
+
+			// IE9: getting activeElement in an iframe raises error
+			// http://tjvantoll.com/2013/08/30/bugs-with-document-activeelement-in-internet-explorer/
+			function isActiveElement(elmn) {
+				var result = false;
+				try {
+					result = elmn === document.activeElement;
+				} catch (error) {}
+				return result;
 			}
 
 			function setAttrUnselectable(elmn, enable) {
