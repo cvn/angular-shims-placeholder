@@ -232,6 +232,14 @@
 		<input type="password" ng-attr-placeholder="{{test.dynamic_password}}">
 	</div>
 
+	<br>
+
+	<div id="group-template" class="group has-placeholder has-model shared-model has-template">
+		<h5>As template, pre-filled by model</h5>
+		<span test-template="text"></span>
+		<span test-template="password"></span>
+	</div>
+
 	</div><!-- /.container -->
 
 
@@ -272,6 +280,16 @@
 
 			// Force enable polyfill in all browsers for demo
 			placeholderSniffer.hasPlaceholder = function () { return false; };
+		})
+		.directive('testTemplate', function () {
+			return {
+				template: function (elem, attrs) {
+					return '<input type="'+attrs.testTemplate+'" placeholder="'+attrs.testTemplate+'" ng-model="template_text" />';
+				},
+				link: function (scope) {
+					scope.template_text='Hello, Gary';
+				}
+			}
 		});
 
 		function fillElements (selector, str) {
