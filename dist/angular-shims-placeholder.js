@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.4.4 - 2015-06-18
+/*! angular-shims-placeholder - v0.4.5 - 2015-07-01
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function(angular, document, undefined) {
@@ -184,11 +184,11 @@ angular.module('ng.shims.placeholder', [])
 				return result;
 			}
 
-			function setAttrUnselectable(elmn, enable) {
+			function setAttrConditional(elmn, attr, enable, value) {
 				if (enable) {
-					elmn.attr('unselectable', 'on');
+					elmn.attr(attr, value);
 				} else {
-					elmn.removeAttr('unselectable');
+					elmn.removeAttr(attr);
 				}
 			}
 
@@ -257,7 +257,8 @@ angular.module('ng.shims.placeholder', [])
 					.prop('disabled', elem.prop('disabled'))
 					.prop('readOnly', elem.prop('readOnly'))
 					.prop('required', elem.prop('required'));
-				setAttrUnselectable(clone, elem.attr('unselectable') === 'on');
+				setAttrConditional(clone, 'unselectable', elem.attr('unselectable') === 'on', 'on');
+				setAttrConditional(clone, 'tabindex', elem.attr('tabindex') !== undefined, elem.attr('tabindex'));
 			}
 
 			function showElement(elmn) {
