@@ -1,4 +1,4 @@
-/*! angular-shims-placeholder - v0.4.5 - 2015-07-01
+/*! angular-shims-placeholder - v0.4.6 - 2015-10-21
 * https://github.com/cvn/angular-shims-placeholder
 * Copyright (c) 2015 Chad von Nau; Licensed MIT */
 (function(angular, document, undefined) {
