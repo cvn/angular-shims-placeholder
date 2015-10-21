@@ -70,6 +70,14 @@ Known Issues
 * ngAnimate: Password placeholder text pops in after animations complete
 * The unit tests only work with Angular 1.2 and up
 
+Development
+-----------
+* First, run `npm install` and `bower install` to get the required dependencies
+* the source files are in the `lib` folder
+* `grunt build` to build the dist files
+* `grunt dev` to show the demo page and watch for changes
+* `grunt test` to run unit tests
+
 Authors
 -------
 
