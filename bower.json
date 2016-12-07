@@ -37,9 +37,9 @@
     "test"
   ],
   "dependencies": {
-    "angular": "1.0.8 - 1.5"
+    "angular": "1.0.8 - 1.x"
   },
   "devDependencies": {
-    "angular-mocks": "1.0.8 - 1.5"
+    "angular-mocks": "1.0.8 - 1.x"
   }
 }
